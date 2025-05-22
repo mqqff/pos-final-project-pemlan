@@ -1,0 +1,47 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package repository;
+
+import pkg.DBConnection;
+import entity.Cashier;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+import pkg.HashUtil;
+
+/**
+ *
+ * @author atha3
+ */
+public class Auth {    
+    private final pkg.DBConnection conn = new DBConnection();
+    
+    public Cashier login(String username, String password) {
+        Cashier user = new Cashier();
+        
+        try {
+            List<Map<String, Object>> users = conn.executeQuery("SELECT password FROM cashiers WHERE username = ? LIMIT 1", username);
+            if (users.isEmpty()) return null;
+            
+            Map<String, Object> userDB = users.getFirst();
+            
+            String passwordDB = userDB.get("password").toString();
+            if (!HashUtil.verifyPassword(password, passwordDB)) return null;
+            
+            userDB = conn.executeQuery("SELECT name, username, phone FROM cashiers WHERE username = ? LIMIT 1", username).getFirst();
+            
+            user.setUsername(userDB.get("username").toString());
+            user.setName(userDB.get("name").toString());
+            user.setPhone(userDB.get("phone").toString());
+        } catch (SQLException e) {
+            Logger.getLogger(Auth.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return user;
+    }
+}
