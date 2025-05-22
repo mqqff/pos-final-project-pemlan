@@ -6,7 +6,6 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
 
         tabbedPane.addTab("Category", new Category());
-        tabbedPane.addTab("Category2", new Category());
     }
 
     @SuppressWarnings("unchecked")
