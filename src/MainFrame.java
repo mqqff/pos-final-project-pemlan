@@ -1,19 +1,45 @@
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import view.*;
 
 public class MainFrame extends javax.swing.JFrame {
 
+    private Category categoryPanel;
+    private Product productPanel;
+    private Customer customerPanel;
+    private Transaction transactionPanel;
+
     public MainFrame() {
         initComponents();
 
-        tabbedPane.addTab("Category", new Category());
-        tabbedPane.addTab("Customer", new Customer());
-        tabbedPane.addTab("Transction", new Transaction());
+        categoryPanel = new Category();
+        productPanel = new Product();
+        customerPanel = new Customer();
+        transactionPanel = new Transaction();
+
+        tabbedPane.addTab("Manage Categories", categoryPanel);
+        tabbedPane.addTab("Manage Products", productPanel);
+        tabbedPane.addTab("Manage Customers", customerPanel);
+        tabbedPane.addTab("Manage Transactions", transactionPanel);
+
+        tabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int selectedIndex = tabbedPane.getSelectedIndex();
+                String selectedTab = tabbedPane.getTitleAt(selectedIndex);
+
+                System.out.println("Tab berpindah ke: " + selectedTab);
+
+                switch (selectedTab) {
+                    case "Manage Category" -> categoryPanel.reload();
+                    case "Manage Product" -> productPanel.reload();
+                }
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-
         tabbedPane = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -21,7 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    } // </editor-fold>
+    }
 
     public static void main(String args[]) {
         try {
@@ -38,7 +64,6 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
     }
 
-    // Variables declaration - do not modify
+    // Variables declaration
     private javax.swing.JTabbedPane tabbedPane;
-    // End of variables declaration
 }
