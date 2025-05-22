@@ -1,4 +1,4 @@
-import view.Category;
+import view.*;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -6,6 +6,8 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
 
         tabbedPane.addTab("Category", new Category());
+        tabbedPane.addTab("Customer", new Customer());
+        tabbedPane.addTab("Transction", new Transaction());
     }
 
     @SuppressWarnings("unchecked")
