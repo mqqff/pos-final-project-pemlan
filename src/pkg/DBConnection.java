@@ -11,10 +11,10 @@ public class DBConnection {
     private Connection conn;
     
     public DBConnection() {
-        getConnection();
+        connect();
     }
 
-    private void getConnection() {
+    private void connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             this.conn = DriverManager.getConnection(URL, USER, PASS);

@@ -177,9 +177,7 @@ public class Category extends javax.swing.JPanel {
 
         int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this category?",
                 "Delete Category", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
+        if (confirm != JOptionPane.YES_OPTION) return;
 
         DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
         int rowsAffected = categoryController.deleteCategory(categoryTable.getValueAt(row, 1).toString());
