@@ -293,10 +293,14 @@ public class TransactionHistory extends javax.swing.JPanel {
             return;
         }
         
-        String invoiceNo = transactionHistoryTable.getValueAt(row, 1).toString();
-        
         dialogTransactionDetails.pack();
         dialogTransactionDetails.setLocationRelativeTo(this);
+        
+        String invoiceNo = transactionHistoryTable.getValueAt(row, 1).toString();
+        // get transaction and transactions details by invoice no (use controller)
+        // create function to load transaction details
+        // load transaction details using function
+        
         dialogTransactionDetails.setVisible(true);
     }//GEN-LAST:event_btnShowDetailsActionPerformed
 
