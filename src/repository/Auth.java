@@ -36,10 +36,8 @@ public class Auth {
             user.setUsername(userDB.get("username").toString());
             user.setName(userDB.get("name").toString());
             user.setPhone(userDB.get("phone").toString());
-        } catch (SQLException e) {
-            Logger.getLogger(Auth.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(Auth.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return user;

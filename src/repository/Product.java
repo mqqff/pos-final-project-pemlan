@@ -59,7 +59,12 @@ public class Product {
           WHERE i.code = ?
           LIMIT 1
           """;
-      Map<String, Object> product = conn.executeQuery(query, code).getFirst();
+      List<Map<String, Object>> products = conn.executeQuery(query, code);
+      
+      if (products.isEmpty()) return null;
+      
+      Map<String, Object> product = products.getFirst();
+      
       String name = product.get("name").toString();
       code = product.get("code").toString();
       long price = Long.parseLong(product.get("price").toString());
