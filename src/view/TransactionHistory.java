@@ -301,6 +301,7 @@ public class TransactionHistory extends javax.swing.JPanel {
         // create function to load transaction details
         // load transaction details using function
         
+        transactionDetailsTable.clearSelection();
         dialogTransactionDetails.setVisible(true);
     }//GEN-LAST:event_btnShowDetailsActionPerformed
 
