@@ -6,12 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import pkg.Session;
-import view.*;
-import view.Category;
-import view.Customer;
-import view.Login;
-import view.Product;
-import view.Transaction;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -20,6 +14,7 @@ public class MainFrame extends javax.swing.JFrame {
     private Customer customerPanel;
     private Transaction transactionPanel;
     private Login loginPanel;
+    private TransactionHistory transactionHistoryPanel;
 
     public MainFrame() {
         initComponents();
@@ -29,12 +24,14 @@ public class MainFrame extends javax.swing.JFrame {
         customerPanel = new Customer();
         transactionPanel = new Transaction();
         loginPanel = new Login();
+        transactionHistoryPanel = new TransactionHistory();
 
         tabbedPane.addTab("Login", loginPanel);
         tabbedPane.addTab("Manage Categories", categoryPanel);
         tabbedPane.addTab("Manage Products", productPanel);
         tabbedPane.addTab("Manage Customers", customerPanel);
         tabbedPane.addTab("Manage Transactions", transactionPanel);
+        tabbedPane.addTab("Transaction History", transactionHistoryPanel);
         tabbedPane.addTab("Logout", new JPanel());
         
         JButton btnLogout = new JButton("Logout");
