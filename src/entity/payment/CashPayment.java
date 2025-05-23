@@ -1,0 +1,47 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package entity.payment;
+
+/**
+ *
+ * @author atha3
+ */
+public class CashPayment implements contracts.Payment {
+    private long total;
+    private long amountPaid;
+    
+    public CashPayment(long total, long amountPaid) {
+        this.amountPaid = amountPaid;
+        this.total = total;
+    }
+    
+    public CashPayment() {}
+    
+    public long getAmountPaid() {
+        return amountPaid;
+    }
+    
+    public void setAmountPaid(long amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+    
+    public double getChange() {
+        return amountPaid - total;
+    }
+    
+    @Override
+    public boolean pay(long amount) {
+        return true;
+    }
+    
+    @Override
+    public String getInsertQuery() {
+        String query = "INSERT INTO payments (payment_method_id, amount_paid) values (";
+        query += String.format("SELECT id FROM payment_methods WHERE name = 'cash', %d", amountPaid);
+        query += ")";
+        
+        return query;
+    }
+}

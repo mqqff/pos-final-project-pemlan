@@ -18,8 +18,14 @@ public class Category {
     
     public entity.Category getCategoryByName(String name) {
         entity.Category c = new entity.Category();
+        
         try {
-            Map<String, Object> category = conn.executeQuery("SELECT * FROM categories WHERE name = ? LIMIT 1", name).getFirst();
+            List<Map<String, Object>> categories = conn.executeQuery("SELECT * FROM categories WHERE name = ? LIMIT 1", name);
+            
+            if (categories.isEmpty()) return null;
+            
+            Map<String, Object> category = categories.getFirst();
+            
             c.setName(category.get("name").toString());
             c.setDescription(category.get("description").toString());
         } catch (SQLException e) {
@@ -31,6 +37,7 @@ public class Category {
     
     public List<entity.Category> getAllCategories() {
         List<entity.Category> list = new ArrayList<>();
+        
         try {
             List<Map<String, Object>> rows = conn.executeQuery("SELECT * FROM categories");
 

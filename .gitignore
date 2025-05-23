@@ -1,1 +1,73 @@
+# NetBeans project files
+/nbproject/private/
+/nbproject/Makefile-*.mk
+/nbproject/Package-*.bash
+/nbproject/project.properties
+/nbproject/project.xml
+/nbproject/genfiles.properties
+/.nb-gradle/
 /build/
+/dist/
+
+# Build and output directories
+/target/
+/bin/
+/classes/
+/build/
+/dist/
+
+# IDE specific files
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Log files
+*.log
+*.log.*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+/lib/
+/libs/
+
+# Generated files
+*.class
+*.jar
+*.war
+*.ear
+
+# User-specific files
+*.suo
+*.user
+*.userprefs
+
+# Maven
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
+maven-*.xml
+
+# Gradle
+.gradle/
+build/
+
+# Mac OS X
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Other
+*.orig
+*~
+*.bak
+*.swp
+*.swo
