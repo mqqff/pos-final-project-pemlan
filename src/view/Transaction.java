@@ -43,11 +43,11 @@ public class Transaction extends javax.swing.JPanel {
         labelItemHeader = new javax.swing.JLabel();
         labelProductName = new javax.swing.JLabel();
         labelQty = new javax.swing.JLabel();
-        transactionItemQty = new javax.swing.JTextField();
+        ProductQty = new javax.swing.JTextField();
         labelStock = new javax.swing.JLabel();
         btnAddToCart = new javax.swing.JButton();
-        transactionItemStock = new javax.swing.JTextField();
-        transactionItemProductName = new javax.swing.JComboBox<>();
+        ProductStock = new javax.swing.JTextField();
+        TFProductCode = new javax.swing.JTextField();
         cartPanel = new javax.swing.JPanel();
         cartPanelHeader = new javax.swing.JPanel();
         labelCartHeader = new javax.swing.JLabel();
@@ -162,7 +162,7 @@ public class Transaction extends javax.swing.JPanel {
 
         labelItemHeader.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         labelItemHeader.setForeground(new java.awt.Color(58, 86, 107));
-        labelItemHeader.setText("Item");
+        labelItemHeader.setText("Product");
 
         javax.swing.GroupLayout itemPanelHeaderLayout = new javax.swing.GroupLayout(itemPanelHeader);
         itemPanelHeader.setLayout(itemPanelHeaderLayout);
@@ -187,10 +187,10 @@ public class Transaction extends javax.swing.JPanel {
         labelQty.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelQty.setText("Qty");
 
-        transactionItemQty.setEnabled(false);
-        transactionItemQty.addActionListener(new java.awt.event.ActionListener() {
+        ProductQty.setEnabled(false);
+        ProductQty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                transactionItemQtyActionPerformed(evt);
+                ProductQtyActionPerformed(evt);
             }
         });
 
@@ -208,14 +208,9 @@ public class Transaction extends javax.swing.JPanel {
             }
         });
 
-        transactionItemStock.setEnabled(false);
+        ProductStock.setEnabled(false);
 
-        transactionItemProductName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        transactionItemProductName.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                transactionItemProductNameItemStateChanged(evt);
-            }
-        });
+        TFProductCode.setText("insert product's code here");
 
         javax.swing.GroupLayout itemPanel2Layout = new javax.swing.GroupLayout(itemPanel2);
         itemPanel2.setLayout(itemPanel2Layout);
@@ -225,7 +220,7 @@ public class Transaction extends javax.swing.JPanel {
             .addGroup(itemPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(transactionItemProductName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TFProductCode)
                     .addGroup(itemPanel2Layout.createSequentialGroup()
                         .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelProductName)
@@ -233,11 +228,11 @@ public class Transaction extends javax.swing.JPanel {
                             .addGroup(itemPanel2Layout.createSequentialGroup()
                                 .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labelQty)
-                                    .addComponent(transactionItemQty, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(ProductQty, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labelStock)
-                                    .addComponent(transactionItemStock, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(ProductStock, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -248,15 +243,15 @@ public class Transaction extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelProductName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(transactionItemProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelQty)
                     .addComponent(labelStock))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(transactionItemQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(transactionItemStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ProductQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ProductStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAddToCart)
                 .addGap(0, 10, Short.MAX_VALUE))
@@ -412,17 +407,13 @@ public class Transaction extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_transactionCashierActionPerformed
 
-    private void transactionItemQtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transactionItemQtyActionPerformed
+    private void ProductQtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductQtyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_transactionItemQtyActionPerformed
+    }//GEN-LAST:event_ProductQtyActionPerformed
 
     private void btnAddToCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToCartActionPerformed
         
     }//GEN-LAST:event_btnAddToCartActionPerformed
-
-    private void transactionItemProductNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_transactionItemProductNameItemStateChanged
-        
-    }//GEN-LAST:event_transactionItemProductNameItemStateChanged
 
     private void btnProccessPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProccessPaymentActionPerformed
         // TODO add your handling code here:
@@ -434,6 +425,9 @@ public class Transaction extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField ProductQty;
+    private javax.swing.JTextField ProductStock;
+    private javax.swing.JTextField TFProductCode;
     private javax.swing.JButton btnAddToCart;
     private javax.swing.JButton btnClearCart;
     private javax.swing.JButton btnProccessPayment;
@@ -461,9 +455,6 @@ public class Transaction extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> transactionCustomer;
     private javax.swing.JTextField transactionDate;
     private javax.swing.JTextField transactionInvoice;
-    private javax.swing.JComboBox<String> transactionItemProductName;
-    private javax.swing.JTextField transactionItemQty;
-    private javax.swing.JTextField transactionItemStock;
     private javax.swing.JLabel transactionTitle;
     // End of variables declaration//GEN-END:variables
 }
