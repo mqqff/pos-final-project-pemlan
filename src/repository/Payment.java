@@ -7,7 +7,6 @@ package repository;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 import pkg.DBConnection;
-import contracts.Payment;
 
 /**
  *
@@ -16,9 +15,9 @@ import contracts.Payment;
 public class Payment {
     private final DBConnection conn = new DBConnection();
     
-    public int createPayment(Payment p) {
+    public int createPayment(contracts.Payment p) {
         try {
-            int query = conn.executeUpdate(p.getInsertQuery());
+            int query = conn.executeUpdate(p.getInsertSQL());
             if (query > 0) return 1;
         } catch (SQLException e) {
             Logger.getLogger(Payment.class.getName()).log(java.util.logging.Level.SEVERE, null, e);

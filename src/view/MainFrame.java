@@ -30,7 +30,7 @@ public class MainFrame extends javax.swing.JFrame {
         tabbedPane.addTab("Manage Categories", categoryPanel);
         tabbedPane.addTab("Manage Products", productPanel);
         tabbedPane.addTab("Manage Customers", customerPanel);
-        tabbedPane.addTab("Manage Transactions", transactionPanel);
+        tabbedPane.addTab("Transaction", transactionPanel);
         tabbedPane.addTab("Transaction History", transactionHistoryPanel);
         tabbedPane.addTab("Logout", new JPanel());
         
@@ -74,7 +74,11 @@ public class MainFrame extends javax.swing.JFrame {
                 }
 
                 switch (selectedTab) {
-                    case "Manage Category" -> categoryPanel.reload();
+                    case "Manage Categories" -> categoryPanel.reload();
+                    case "Transaction" -> {
+                        transactionPanel.reload(true);
+                        transactionPanel.initCashier();
+                    }
                     case "Manage Product" -> productPanel.reload();
                 }
             }

@@ -15,11 +15,8 @@ public class Cashier extends contracts.Person {
         super(name, phone);
         this.username = username;
     }
-    
-    public Cashier() {
-        
+    public Cashier(){
     }
-    
     public String getUsername() {
         return username;
     }

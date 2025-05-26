@@ -4,17 +4,32 @@
  */
 package view;
 
+import entity.TransactionDetail;
+import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pkg.Session;
+
 /**
  *
  * @author atha3
  */
 public class Transaction extends javax.swing.JPanel {
+        private final controller.Product productController = new controller.Product();
+        private final controller.Transaction transactionController = new controller.Transaction();
+        private List<entity.TransactionDetail> cart = new ArrayList<>(); 
 
     /**
      * Creates new form Transaction
      */
     public Transaction() {
         initComponents();
+        reload(true);
     }
 
     /**
@@ -38,9 +53,16 @@ public class Transaction extends javax.swing.JPanel {
         transactionCustomer = new javax.swing.JComboBox<>();
         labelCashier = new javax.swing.JLabel();
         transactionCashier = new javax.swing.JTextField();
-        itemPanel2 = new javax.swing.JPanel();
+        cartPanel = new javax.swing.JPanel();
+        labelTotalText = new javax.swing.JLabel();
+        btnProccessPayment = new javax.swing.JButton();
+        labelTotal = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        cartTable = new javax.swing.JTable();
+        btnClearCart = new javax.swing.JButton();
         itemPanelHeader = new javax.swing.JPanel();
         labelItemHeader = new javax.swing.JLabel();
+        itemPanel2 = new javax.swing.JPanel();
         labelProductName = new javax.swing.JLabel();
         labelQty = new javax.swing.JLabel();
         ProductQty = new javax.swing.JTextField();
@@ -48,15 +70,10 @@ public class Transaction extends javax.swing.JPanel {
         btnAddToCart = new javax.swing.JButton();
         ProductStock = new javax.swing.JTextField();
         TFProductCode = new javax.swing.JTextField();
-        cartPanel = new javax.swing.JPanel();
+        TFProductName = new javax.swing.JTextField();
+        LabelProductName = new javax.swing.JLabel();
         cartPanelHeader = new javax.swing.JPanel();
         labelCartHeader = new javax.swing.JLabel();
-        labelTotalText = new javax.swing.JLabel();
-        btnProccessPayment = new javax.swing.JButton();
-        labelTotal = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        cartTable = new javax.swing.JTable();
-        btnClearCart = new javax.swing.JButton();
 
         transactionTitle.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         transactionTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -91,6 +108,11 @@ public class Transaction extends javax.swing.JPanel {
         labelInvoice.setText("Invoice");
 
         transactionInvoice.setEnabled(false);
+        transactionInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transactionInvoiceActionPerformed(evt);
+            }
+        });
 
         labelDate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelDate.setText("Date");
@@ -156,131 +178,7 @@ public class Transaction extends javax.swing.JPanel {
                 .addGap(0, 9, Short.MAX_VALUE))
         );
 
-        itemPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        itemPanelHeader.setBackground(new java.awt.Color(247, 247, 247));
-
-        labelItemHeader.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        labelItemHeader.setForeground(new java.awt.Color(58, 86, 107));
-        labelItemHeader.setText("Product");
-
-        javax.swing.GroupLayout itemPanelHeaderLayout = new javax.swing.GroupLayout(itemPanelHeader);
-        itemPanelHeader.setLayout(itemPanelHeaderLayout);
-        itemPanelHeaderLayout.setHorizontalGroup(
-            itemPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(itemPanelHeaderLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelItemHeader)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        itemPanelHeaderLayout.setVerticalGroup(
-            itemPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(itemPanelHeaderLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelItemHeader)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        labelProductName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        labelProductName.setText("Product Name");
-
-        labelQty.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        labelQty.setText("Qty");
-
-        ProductQty.setEnabled(false);
-        ProductQty.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProductQtyActionPerformed(evt);
-            }
-        });
-
-        labelStock.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        labelStock.setText("Stock");
-
-        btnAddToCart.setBackground(new java.awt.Color(40, 183, 121));
-        btnAddToCart.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAddToCart.setForeground(new java.awt.Color(255, 255, 255));
-        btnAddToCart.setText("Add to Cart");
-        btnAddToCart.setEnabled(false);
-        btnAddToCart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddToCartActionPerformed(evt);
-            }
-        });
-
-        ProductStock.setEnabled(false);
-
-        TFProductCode.setText("insert product's code here");
-
-        javax.swing.GroupLayout itemPanel2Layout = new javax.swing.GroupLayout(itemPanel2);
-        itemPanel2.setLayout(itemPanel2Layout);
-        itemPanel2Layout.setHorizontalGroup(
-            itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemPanelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(itemPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TFProductCode)
-                    .addGroup(itemPanel2Layout.createSequentialGroup()
-                        .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelProductName)
-                            .addComponent(btnAddToCart)
-                            .addGroup(itemPanel2Layout.createSequentialGroup()
-                                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelQty)
-                                    .addComponent(ProductQty, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelStock)
-                                    .addComponent(ProductStock, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        itemPanel2Layout.setVerticalGroup(
-            itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(itemPanel2Layout.createSequentialGroup()
-                .addComponent(itemPanelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelProductName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelQty)
-                    .addComponent(labelStock))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ProductQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ProductStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAddToCart)
-                .addGap(0, 10, Short.MAX_VALUE))
-        );
-
         cartPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        cartPanelHeader.setBackground(new java.awt.Color(247, 247, 247));
-
-        labelCartHeader.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        labelCartHeader.setForeground(new java.awt.Color(58, 86, 107));
-        labelCartHeader.setText("Cart");
-
-        javax.swing.GroupLayout cartPanelHeaderLayout = new javax.swing.GroupLayout(cartPanelHeader);
-        cartPanelHeader.setLayout(cartPanelHeaderLayout);
-        cartPanelHeaderLayout.setHorizontalGroup(
-            cartPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cartPanelHeaderLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelCartHeader)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        cartPanelHeaderLayout.setVerticalGroup(
-            cartPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cartPanelHeaderLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelCartHeader)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         labelTotalText.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         labelTotalText.setText("Total: Rp. ");
@@ -337,7 +235,6 @@ public class Transaction extends javax.swing.JPanel {
         cartPanel.setLayout(cartPanelLayout);
         cartPanelLayout.setHorizontalGroup(
             cartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cartPanelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(cartPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(cartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,7 +243,7 @@ public class Transaction extends javax.swing.JPanel {
                         .addComponent(labelTotalText)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelTotal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                         .addComponent(btnClearCart)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnProccessPayment)))
@@ -355,8 +252,7 @@ public class Transaction extends javax.swing.JPanel {
         cartPanelLayout.setVerticalGroup(
             cartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cartPanelLayout.createSequentialGroup()
-                .addComponent(cartPanelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(39, 39, 39)
                 .addGroup(cartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(cartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(labelTotalText)
@@ -365,7 +261,159 @@ public class Transaction extends javax.swing.JPanel {
                         .addComponent(btnProccessPayment)
                         .addComponent(btnClearCart)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        itemPanelHeader.setBackground(new java.awt.Color(247, 247, 247));
+
+        labelItemHeader.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        labelItemHeader.setForeground(new java.awt.Color(58, 86, 107));
+        labelItemHeader.setText("Product");
+
+        itemPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        labelProductName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelProductName.setText("Product Code");
+
+        labelQty.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelQty.setText("Qty");
+
+        ProductQty.setEnabled(false);
+        ProductQty.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProductQtyActionPerformed(evt);
+            }
+        });
+
+        labelStock.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelStock.setText("Stock");
+
+        btnAddToCart.setBackground(new java.awt.Color(40, 183, 121));
+        btnAddToCart.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAddToCart.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddToCart.setText("Add to Cart");
+        btnAddToCart.setEnabled(false);
+        btnAddToCart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddToCartActionPerformed(evt);
+            }
+        });
+
+        ProductStock.setEnabled(false);
+
+        TFProductCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TFProductCodeActionPerformed(evt);
+            }
+        });
+        TFProductCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TFProductCodeKeyReleased(evt);
+            }
+        });
+
+        TFProductName.setToolTipText("");
+        TFProductName.setEnabled(false);
+        TFProductName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TFProductNameActionPerformed(evt);
+            }
+        });
+
+        LabelProductName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        LabelProductName.setText("Product Name");
+
+        javax.swing.GroupLayout itemPanel2Layout = new javax.swing.GroupLayout(itemPanel2);
+        itemPanel2.setLayout(itemPanel2Layout);
+        itemPanel2Layout.setHorizontalGroup(
+            itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TFProductCode)
+                    .addComponent(TFProductName)
+                    .addGroup(itemPanel2Layout.createSequentialGroup()
+                        .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelProductName)
+                            .addComponent(btnAddToCart)
+                            .addComponent(LabelProductName)
+                            .addGroup(itemPanel2Layout.createSequentialGroup()
+                                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ProductQty, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelQty))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelStock)
+                                    .addComponent(ProductStock, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        itemPanel2Layout.setVerticalGroup(
+            itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(labelProductName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TFProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(LabelProductName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TFProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelQty)
+                    .addComponent(labelStock))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(itemPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ProductQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ProductStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAddToCart))
+        );
+
+        javax.swing.GroupLayout itemPanelHeaderLayout = new javax.swing.GroupLayout(itemPanelHeader);
+        itemPanelHeader.setLayout(itemPanelHeaderLayout);
+        itemPanelHeaderLayout.setHorizontalGroup(
+            itemPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemPanelHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelItemHeader)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemPanelHeaderLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(itemPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        itemPanelHeaderLayout.setVerticalGroup(
+            itemPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemPanelHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelItemHeader)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(itemPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        cartPanelHeader.setBackground(new java.awt.Color(247, 247, 247));
+
+        labelCartHeader.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        labelCartHeader.setForeground(new java.awt.Color(58, 86, 107));
+        labelCartHeader.setText("Cart");
+
+        javax.swing.GroupLayout cartPanelHeaderLayout = new javax.swing.GroupLayout(cartPanelHeader);
+        cartPanelHeader.setLayout(cartPanelHeaderLayout);
+        cartPanelHeaderLayout.setHorizontalGroup(
+            cartPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cartPanelHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelCartHeader)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        cartPanelHeaderLayout.setVerticalGroup(
+            cartPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cartPanelHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelCartHeader)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -374,17 +422,18 @@ public class Transaction extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
+                        .addContainerGap()
                         .addComponent(transactionTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cashierPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(itemPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(cartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(itemPanelHeader, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cashierPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cartPanelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -396,9 +445,12 @@ public class Transaction extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cashierPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
-                        .addComponent(itemPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(itemPanelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cartPanelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(cartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -412,7 +464,46 @@ public class Transaction extends javax.swing.JPanel {
     }//GEN-LAST:event_ProductQtyActionPerformed
 
     private void btnAddToCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToCartActionPerformed
+        if (TFProductCode.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Input the product code first!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
+        try {
+            if (ProductQty.getText().isEmpty()) {
+                throw new Exception("Input the qty first!");
+            }
+            
+            String itemName = TFProductName.getText();
+            int qty = Integer.parseInt(ProductQty.getText());
+            int stock = Integer.parseInt(ProductStock.getText());
+            
+            if (qty < 1) {
+                throw new Exception("Minimum qty is 1");
+            }
+            
+            if (qty > stock) {
+                throw new Exception("Qty cannot exceed stock!");
+            }
+            
+            double price = 9000;
+            double subtotal = price * qty;
+            
+            entity.Product p = new entity.Product();
+            p.setName(itemName);
+            entity.TransactionDetail item = new TransactionDetail(qty, p);
+            cart.add(item);
+            
+            DefaultTableModel model = (DefaultTableModel) cartTable.getModel();
+            model.addRow(new Object[]{itemName, price, qty, subtotal});
+            double oldTotal = Double.parseDouble(labelTotal.getText());
+            labelTotal.setText(String.valueOf(oldTotal + subtotal));
+            reload(false);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Qty must be a number!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }        
     }//GEN-LAST:event_btnAddToCartActionPerformed
 
     private void btnProccessPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProccessPaymentActionPerformed
@@ -423,11 +514,69 @@ public class Transaction extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnClearCartActionPerformed
 
+    private void TFProductCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFProductCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TFProductCodeActionPerformed
+
+    private void transactionInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transactionInvoiceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_transactionInvoiceActionPerformed
+
+    private void TFProductNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFProductNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TFProductNameActionPerformed
+
+    private void TFProductCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFProductCodeKeyReleased
+        entity.Product product = productController.getProductByCode(TFProductCode.getText());
+        
+        if (product == null){
+            return;
+        }
+        
+        TFProductName.setText(product.getName());
+        ProductStock.setText(String.valueOf(product.getStock()));
+        ProductQty.setEnabled(true);
+        btnAddToCart.setEnabled(true);
+    }//GEN-LAST:event_TFProductCodeKeyReleased
+    
+    
+    
+    public void reload(boolean reloadAll) {
+        TFProductCode.setText("");
+        ProductQty.setText("0");
+        ProductQty.setEnabled(false);
+        ProductStock.setText("0");
+        btnAddToCart.setEnabled(false);
+        
+        if (reloadAll) {
+            transactionInvoice.setText(transactionController.generateInvoice());
+        
+            LocalDate today = LocalDate.now();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDate = today.format(formatter);
+
+            transactionDate.setText(formattedDate);
+
+            transactionCustomer.removeAllItems();
+            transactionCustomer.addItem("-- Select Customer --");
+        }
+        
+        
+    }
+    
+    public void initCashier(){
+        entity.Cashier cashier = Session.getUser();
+        transactionCashier.setText(cashier.getName());
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LabelProductName;
     private javax.swing.JTextField ProductQty;
     private javax.swing.JTextField ProductStock;
     private javax.swing.JTextField TFProductCode;
+    private javax.swing.JTextField TFProductName;
     private javax.swing.JButton btnAddToCart;
     private javax.swing.JButton btnClearCart;
     private javax.swing.JButton btnProccessPayment;

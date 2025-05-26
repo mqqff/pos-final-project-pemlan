@@ -13,10 +13,11 @@ public abstract class Person {
     protected String name;
     protected String phone;
     
-    public Person() {
-       
+    public Person(String name, String phone) {
+       this.name =  name;
+       this.phone = phone;
     }
-    
+    public Person(){}
     public String getName() {
         return name;
     }

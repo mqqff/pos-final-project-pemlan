@@ -31,7 +31,7 @@ public class QRISPayment implements contracts.Payment {
     }
     
     @Override
-    public String getInsertQuery() {
+    public String getInsertSQL() {
         String query = "INSERT INTO payments (payment_method_id, amount_paid) values (";
         query += String.format("SELECT id FROM payment_methods WHERE name = 'cash', %d", amountPaid);
         query += ")";
