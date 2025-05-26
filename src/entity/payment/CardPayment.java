@@ -25,17 +25,21 @@ public class CardPayment implements contracts.Payment {
         this.cardNumber = cardNumber;
     }
     
-    @Override 
+     @Override
     public boolean pay(long amount) {
         return true;
     }
     
     @Override
-    public String getInsertQuery() {
+    public String getInsertSQL() {
         String query = "INSERT INTO payments (payment_method_id, card_number, amount_paid) values (";
         query += String.format("SELECT id FROM payment_methods WHERE name = 'card', '%s'", cardNumber);
         query += ")";
         
         return query;
     }
+
+  
+
+  
 }

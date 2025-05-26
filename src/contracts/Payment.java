@@ -10,5 +10,5 @@ package contracts;
  */
 public interface Payment {
     boolean pay(long amount);
-    String getInsertQuery();
+    String getInsertSQL();
 }
