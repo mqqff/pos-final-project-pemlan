@@ -126,7 +126,7 @@ public class Transaction {
             } else {
                 SQL = """
                          INSERT INTO transactions 
-                         (invoiceNo, total, customer_id, payment_id, cashier_id)
+                         (invoice_no, total, customer_id, payment_id, cashier_id)
                          VALUES (
                          ?, 
                          ?, 

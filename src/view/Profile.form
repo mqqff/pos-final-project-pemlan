@@ -39,16 +39,16 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="changePasswordTitle" alignment="1" pref="194" max="32767" attributes="0"/>
+                          <Component id="changePasswordTitle" alignment="1" max="32767" attributes="0"/>
+                          <Component id="oldPasswordInput" alignment="0" max="32767" attributes="0"/>
+                          <Component id="newPasswordInput" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="oldPasswordLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="oldPassword" max="32767" attributes="0"/>
                                   <Component id="newPasswordLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="newPassword" alignment="0" max="32767" attributes="0"/>
                                   <Component id="confirmationPasswordLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="confirmationPassword" alignment="0" max="32767" attributes="0"/>
                                   <Component id="btnSubmit" pref="194" max="32767" attributes="0"/>
+                                  <Component id="confirmationPasswordInput" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -65,15 +65,15 @@
                       <EmptySpace type="unrelated" max="32767" attributes="0"/>
                       <Component id="oldPasswordLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="oldPassword" min="-2" max="-2" attributes="0"/>
+                      <Component id="oldPasswordInput" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="newPasswordLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="newPassword" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="newPasswordInput" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="confirmationPasswordLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="confirmationPassword" min="-2" max="-2" attributes="0"/>
+                      <Component id="confirmationPasswordInput" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnSubmit" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -99,11 +99,6 @@
                 <Property name="text" type="java.lang.String" value="Old Password"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="oldPassword">
-              <Events>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="oldPasswordKeyPressed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="newPasswordLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -111,11 +106,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="New Password"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="newPassword">
-              <Events>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="newPasswordKeyPressed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="confirmationPasswordLabel">
               <Properties>
@@ -125,11 +115,6 @@
                 <Property name="text" type="java.lang.String" value="Confirmation Password"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="confirmationPassword">
-              <Events>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="confirmationPasswordKeyPressed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnSubmit">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Change Password"/>
@@ -137,6 +122,12 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSubmitActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="oldPasswordInput">
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="newPasswordInput">
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="confirmationPasswordInput">
             </Component>
           </SubComponents>
         </Container>

@@ -46,12 +46,12 @@ public class Profile extends javax.swing.JPanel {
         changePasswordPanel = new javax.swing.JPanel();
         changePasswordTitle = new javax.swing.JLabel();
         oldPasswordLabel = new javax.swing.JLabel();
-        oldPassword = new javax.swing.JTextField();
         newPasswordLabel = new javax.swing.JLabel();
-        newPassword = new javax.swing.JTextField();
         confirmationPasswordLabel = new javax.swing.JLabel();
-        confirmationPassword = new javax.swing.JTextField();
         btnSubmit = new javax.swing.JButton();
+        oldPasswordInput = new javax.swing.JPasswordField();
+        newPasswordInput = new javax.swing.JPasswordField();
+        confirmationPasswordInput = new javax.swing.JPasswordField();
         profileTitle = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
@@ -69,29 +69,11 @@ public class Profile extends javax.swing.JPanel {
         oldPasswordLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         oldPasswordLabel.setText("Old Password");
 
-        oldPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                oldPasswordKeyPressed(evt);
-            }
-        });
-
         newPasswordLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         newPasswordLabel.setText("New Password");
 
-        newPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                newPasswordKeyPressed(evt);
-            }
-        });
-
         confirmationPasswordLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         confirmationPasswordLabel.setText("Confirmation Password");
-
-        confirmationPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                confirmationPasswordKeyPressed(evt);
-            }
-        });
 
         btnSubmit.setText("Change Password");
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
@@ -107,16 +89,16 @@ public class Profile extends javax.swing.JPanel {
             .addGroup(changePasswordPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(changePasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(changePasswordTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                    .addComponent(changePasswordTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(oldPasswordInput)
+                    .addComponent(newPasswordInput)
                     .addGroup(changePasswordPanelLayout.createSequentialGroup()
                         .addGroup(changePasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(oldPasswordLabel)
-                            .addComponent(oldPassword)
                             .addComponent(newPasswordLabel)
-                            .addComponent(newPassword)
                             .addComponent(confirmationPasswordLabel)
-                            .addComponent(confirmationPassword)
-                            .addComponent(btnSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
+                            .addComponent(btnSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                            .addComponent(confirmationPasswordInput))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -128,15 +110,15 @@ public class Profile extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(oldPasswordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(oldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(oldPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(newPasswordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(newPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(newPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(confirmationPasswordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(confirmationPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(confirmationPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSubmit)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -280,22 +262,30 @@ public class Profile extends javax.swing.JPanel {
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
     private void updatePassword() {
-        if (oldPassword.getText().isEmpty() || newPassword.getText().isEmpty() || confirmationPassword.getText().isEmpty()) {
+        char[] oldPasswordChar = oldPasswordInput.getPassword();
+        char[] newPasswordChar = newPasswordInput.getPassword();
+        char[] confirmationPasswordChar = confirmationPasswordInput.getPassword();
+        
+        if (oldPasswordChar.length < 1 || newPasswordChar.length < 1 || confirmationPasswordChar.length < 1) {
             JOptionPane.showMessageDialog(this, "Please fill all the field!");
             return;
         }
         
-        if (!newPassword.getText().equals(confirmationPassword.getText())) {
+        String oldPassword = String.valueOf(oldPasswordChar);
+        String newPassword = String.valueOf(newPasswordChar);
+        String confirmationPassword = String.valueOf(confirmationPasswordChar);
+        
+        if (!newPassword.equals(confirmationPassword)) {
             JOptionPane.showMessageDialog(this, "Confirmation password is not match with new password!");
             return;
         }
         
-        int status = cashierController.updatePassword(oldPassword.getText(), newPassword.getText());
+        int status = cashierController.updatePassword(oldPassword, newPassword);
         if (status > 0) {
             JOptionPane.showMessageDialog(this, "Successfully update profile");
-            oldPassword.setText("");
-            newPassword.setText("");
-            confirmationPassword.setText("");
+            oldPasswordInput.setText("");
+            newPasswordInput.setText("");
+            confirmationPasswordInput.setText("");
             changePasswordDialog.setVisible(false);
         } else if (status == 0) {
             JOptionPane.showMessageDialog(this, "Opss....Failed", "Error", JOptionPane.ERROR_MESSAGE);
@@ -307,18 +297,6 @@ public class Profile extends javax.swing.JPanel {
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         updatePassword();
     }//GEN-LAST:event_btnSubmitActionPerformed
-
-    private void oldPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_oldPasswordKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) updatePassword();
-    }//GEN-LAST:event_oldPasswordKeyPressed
-
-    private void newPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newPasswordKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) updatePassword();
-    }//GEN-LAST:event_newPasswordKeyPressed
-
-    private void confirmationPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_confirmationPasswordKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) updatePassword();
-    }//GEN-LAST:event_confirmationPasswordKeyPressed
 
     private void updateProfile() {
         if (name.getText().isEmpty() || username.getText().isEmpty() || phone.getText().isEmpty()) {
@@ -343,13 +321,13 @@ public class Profile extends javax.swing.JPanel {
     private javax.swing.JDialog changePasswordDialog;
     private javax.swing.JPanel changePasswordPanel;
     private javax.swing.JLabel changePasswordTitle;
-    private javax.swing.JTextField confirmationPassword;
+    private javax.swing.JPasswordField confirmationPasswordInput;
     private javax.swing.JLabel confirmationPasswordLabel;
     private javax.swing.JTextField name;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JTextField newPassword;
+    private javax.swing.JPasswordField newPasswordInput;
     private javax.swing.JLabel newPasswordLabel;
-    private javax.swing.JTextField oldPassword;
+    private javax.swing.JPasswordField oldPasswordInput;
     private javax.swing.JLabel oldPasswordLabel;
     private javax.swing.JTextField phone;
     private javax.swing.JLabel phoneLabel;

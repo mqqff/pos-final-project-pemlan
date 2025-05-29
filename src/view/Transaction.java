@@ -23,7 +23,9 @@ import pkg.Session;
 public class Transaction extends javax.swing.JPanel {
         private final controller.Product productController = new controller.Product();
         private final controller.Transaction transactionController = new controller.Transaction();
+//        private final controller.Customer customerController = new controller.Customer();
         private final List<entity.TransactionDetail> cart = new ArrayList<>();
+        private final List<entity.Customer> customers = new ArrayList<>();
         private final DefaultTableModel model;
 
     /**
@@ -33,6 +35,7 @@ public class Transaction extends javax.swing.JPanel {
         initComponents();
         paymentDialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         
+        initInvoice();
         load();
         model = (DefaultTableModel) cartTable.getModel();
     }
@@ -813,7 +816,8 @@ public class Transaction extends javax.swing.JPanel {
             }
             
             load();
-            reload();
+            initInvoice();
+            loadCustomer();
             cart.clear();
             labelTotal.setText("0");
             
@@ -859,9 +863,11 @@ public class Transaction extends javax.swing.JPanel {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) pay();
     }//GEN-LAST:event_cardNumberKeyPressed
     
-    public void load() {
+    public void initInvoice() {
         transactionInvoice.setText(transactionController.generateInvoice());
-
+    }
+    
+    public void load() {
         LocalDate today = LocalDate.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -869,11 +875,26 @@ public class Transaction extends javax.swing.JPanel {
 
         transactionDate.setText(formattedDate);
         
-        cart.clear();
-
+        loadCustomer();
+        reload();
+        
+        productCode.grabFocus();
+    }
+    
+    public void loadCustomer() {
         transactionCustomer.removeAllItems();
         transactionCustomer.addItem("");
-        productCode.grabFocus();
+        transactionCustomer.addItem("John Doe");
+//        List<entity.Customer> rows = customerController.getAllCustomers();
+//        for (entity.Customer c : rows) {
+//            customers.add(c);
+//            transactionCustomer.addItem(c.getName());
+//        }
+    }
+    
+    public void initCashier() {
+        entity.Cashier cashier = Session.getCashier();
+        transactionCashier.setText(cashier.getName());
     }
     
     public void reload() {
@@ -889,11 +910,6 @@ public class Transaction extends javax.swing.JPanel {
         changeField.setText("-");
         switchPayment(cashPanel);
         productCode.grabFocus();
-    }
-    
-    public void initCashier(){
-        entity.Cashier cashier = Session.getCashier();
-        transactionCashier.setText(cashier.getName());
     }
     
     public void focusOnProductCodeInput() {
