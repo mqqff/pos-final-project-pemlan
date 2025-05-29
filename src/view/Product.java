@@ -4,6 +4,7 @@
  */
 package view;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +16,8 @@ import javax.swing.table.DefaultTableModel;
 public class Product extends javax.swing.JPanel {
     private final controller.Product productController = new controller.Product();
     private final controller.Category categoryController = new controller.Category();
-    private String originalCode;
+    private final List<entity.Product> products = new ArrayList<>();
+    private int modifiedProductId;
 
     /**
      * Creates new form Product
@@ -211,23 +213,40 @@ public class Product extends javax.swing.JPanel {
         if (confirm != JOptionPane.YES_OPTION) {
             return;
         }
+        
+        String targetName = productTable.getValueAt(row, 1).toString();
+        int id = products.stream().filter(p -> targetName.equals(p.getName())).map(entity.Product::getId).findFirst().orElse(-1);
 
-        DefaultTableModel model = (DefaultTableModel) productTable.getModel();
-        int rowsAffected = productController.deleteProduct(productTable.getValueAt(row, 2).toString());
+        int rowsAffected = productController.deleteProduct(id);
 
         if (rowsAffected == 0) {
             JOptionPane.showMessageDialog(this, "Ooops... Failed", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+        DefaultTableModel model = (DefaultTableModel) productTable.getModel();
         model.removeRow(row);
         JOptionPane.showMessageDialog(this, "Successfully delete product");
         reload();
     }//GEN-LAST:event_btnDeleteProductActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
-        if (validateFields())
+        if (!validateFields())
             return;
+        
+        String targetName = productName.getText();
+        entity.Product pr = products.stream().filter(p -> p.getName().equalsIgnoreCase(targetName)).findFirst().orElse(null);
+        if (pr != null) {
+            JOptionPane.showMessageDialog(this, " product with name ' " + targetName +  " 'already exist");
+            return;
+        }
+        
+        String targetCode = productCode.getText();
+        pr = products.stream().filter(p -> p.getCode().equalsIgnoreCase(targetCode)).findFirst().orElse(null);
+        if (pr != null) {
+            JOptionPane.showMessageDialog(this, " product with code ' " + targetCode +  " 'already exist");
+            return;
+        }
 
         int rowsAffected = productController.createProduct(productName.getText(), productCode.getText(),
                 productCategory.getSelectedItem().toString(), Integer.parseInt(productStock.getText()),
@@ -251,10 +270,13 @@ public class Product extends javax.swing.JPanel {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            String targetName = productTable.getValueAt(row, 1).toString();
+            int id = products.stream().filter(p -> targetName.equals(p.getName())).map(entity.Product::getId).findFirst().orElse(-1);
 
-            entity.Product p = productController.getProductByCode(productTable.getValueAt(row, 2).toString());
+            entity.Product p = productController.getProductById(id);
 
-            originalCode = p.getCode();
+            modifiedProductId = id;
 
             productName.setText(p.getName());
             productCode.setText(p.getCode());
@@ -266,11 +288,25 @@ public class Product extends javax.swing.JPanel {
             btnEditProduct.setText("Update");
         } else {
             if (!validateFields()) return;
+            
+            String target = productName.getText();
+            entity.Product pr = products.stream().filter(p -> p.getName().equalsIgnoreCase(target) && p.getId() != modifiedProductId).findFirst().orElse(null);
+            if (pr != null) {
+                JOptionPane.showMessageDialog(this, " product with name ' " + target +  " 'already exist");
+                return;
+            }
+            
+            String targetCode = productCode.getText();
+            pr = products.stream().filter(p -> p.getCode().equalsIgnoreCase(targetCode) && p.getId() != modifiedProductId).findFirst().orElse(null);
+            if (pr != null) {
+                JOptionPane.showMessageDialog(this, " product with code ' " + targetCode +  " 'already exist");
+                return;
+            }
 
             int rowsAffected = productController.updateProduct(productName.getText(), productCode.getText(),
                     productCategory.getSelectedItem().toString(),
                     Integer.parseInt(productStock.getText()),
-                    Long.parseLong(productPrice.getText()), originalCode);
+                    Long.parseLong(productPrice.getText()), modifiedProductId);
 
             if (rowsAffected == 0) {
                 JOptionPane.showMessageDialog(this, "Ooops... Failed", "Error", JOptionPane.ERROR_MESSAGE);
@@ -300,11 +336,12 @@ public class Product extends javax.swing.JPanel {
         model.setRowCount(0);
 
         int rowNum = 1;
-        List<entity.Product> products = productController.getAllProducts();
-        for (entity.Product p : products) {
+        List<entity.Product> res = productController.getAllProducts();
+        for (entity.Product p : res) {
             model.addRow(new Object[] { rowNum++, p.getName(), p.getCode(), p.getCategory().getName(),
-                    p.getPrice(),
+                    "Rp. " + p.getPrice(),
                     p.getStock() });
+            products.add(p);
         }
 
         btnEditProduct.setSelected(false);
@@ -314,7 +351,7 @@ public class Product extends javax.swing.JPanel {
         productPrice.setText("");
         productCategory.setSelectedIndex(0);
         productTable.clearSelection();
-        originalCode = "";
+        modifiedProductId = -1;
         btnEditProduct.setText("Edit");
     }
 

@@ -9,37 +9,45 @@ package entity;
  * @author nara
  */
 public class TransactionDetail {
-    private int quantity;
+    private int id;
+    private int qty;
     private Product product;
-    private int Transaction_ID;
+    private int transactionId;
     
-    public TransactionDetail(int quantity, Product product){
-    this.quantity =  quantity;
-    this.product = product; 
+    public TransactionDetail(int qty, Product product){
+        this.qty =  qty;
+        this.product = product; 
     }
     
-    public int getQuantity() {
-    return this.quantity;
+    public int getId() {
+        return id;
     }
     
-    public void setQuantity(int quantity){
-    this.quantity =  quantity;
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getQty() {
+        return this.qty;
+    }
+    
+    public void setQty(int qty){
+        this.qty =  qty;
     }
     
     public Product getProduct() {
-    return this.product;
+        return this.product;
+    }
+    public void setProduct(Product product) {
+        this.product = product;
     }
     
-    public void setQuantity(Product product){
-    this.product =  product;
+    public int getTransactionId() {
+        return this.transactionId;
     }
     
-    public int getTransactionID() {
-    return this.Transaction_ID;
-    }
-    
-    public void setTransactionID(int Transaction_ID){
-    this.Transaction_ID =  Transaction_ID;
+    public void setTransactionId(int transactionId){
+        this.transactionId = transactionId;
     }
 }
 
