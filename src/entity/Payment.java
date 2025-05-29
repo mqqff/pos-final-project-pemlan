@@ -9,6 +9,7 @@ package entity;
  * @author nara
  */
 public class Payment {
+    private String type;
     private int id;
     private String cardNumber;
     private long amountPaid;
@@ -35,5 +36,17 @@ public class Payment {
     
     public void setAmountPaid(long amountPaid) {
         this.amountPaid = amountPaid;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public long getChange(long total) {
+        return amountPaid - total;
     }
 }

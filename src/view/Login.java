@@ -4,6 +4,7 @@
  */
 package view;
 
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -13,13 +14,17 @@ import javax.swing.SwingUtilities;
  * @author atha3
  */
 public class Login extends javax.swing.JPanel {
-    private controller.Auth authController = new controller.Auth();
+    private final controller.Auth authController = new controller.Auth();
 
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+    }
+    
+    public void focusUsernameInput() {
+        inputUsername.grabFocus();
     }
 
     /**
@@ -44,8 +49,20 @@ public class Login extends javax.swing.JPanel {
         labelUsername.setLabelFor(inputUsername);
         labelUsername.setText("Username");
 
+        inputUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                inputUsernameKeyPressed(evt);
+            }
+        });
+
         labelPassword.setLabelFor(inputPassword);
         labelPassword.setText("Password");
+
+        inputPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                inputPasswordKeyPressed(evt);
+            }
+        });
 
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +116,10 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        login();
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void login() {
         if (!validateFields()) return;
         
         String username = inputUsername.getText();
@@ -107,6 +128,9 @@ public class Login extends javax.swing.JPanel {
         
         if (!authController.login(username, password)) {
             JOptionPane.showMessageDialog(this, "Incorrect username or password!", "Auth Error", JOptionPane.ERROR_MESSAGE);
+            inputUsername.setText("");
+            inputPassword.setText("");
+            inputUsername.grabFocus();
             return;
         }
         
@@ -116,7 +140,15 @@ public class Login extends javax.swing.JPanel {
         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
         JTabbedPane tabs = mainFrame.getTabbedPane();
         tabs.setSelectedIndex(1);
-    }//GEN-LAST:event_btnLoginActionPerformed
+    }
+    
+    private void inputUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputUsernameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) login();
+    }//GEN-LAST:event_inputUsernameKeyPressed
+
+    private void inputPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputPasswordKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) login();
+    }//GEN-LAST:event_inputPasswordKeyPressed
 
     private boolean validateFields() {
         if (inputUsername.getText().isEmpty() || inputPassword.getPassword().length < 1) {

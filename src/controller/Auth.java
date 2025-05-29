@@ -11,14 +11,14 @@ import entity.Cashier;
  * @author atha3
  */
 public class Auth {
-    private repository.Auth authRepo = new repository.Auth();
+    private final repository.Auth authRepo = new repository.Auth();
     
     public boolean login(String username, String password) {
-        Cashier cashier = authRepo.login(username, password);
+        Cashier cashier = authRepo.authenticate(username, password);
         
         if (cashier == null) return false;
         
-        pkg.Session.setUser(cashier);
+        pkg.Session.setCashier(cashier);
         
         return true;
     }

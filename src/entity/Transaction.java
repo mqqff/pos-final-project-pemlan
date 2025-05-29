@@ -4,32 +4,42 @@
  */
 package entity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 /**
  *
  * @author nara
  */
 public class Transaction {
+    private int id;
     private entity.Cashier cashier;
     private entity.Customer customer;
     private String invoiceNo;
-    private double total;
+    private long total;
     private entity.Payment payment;
-    private double amount;
-    private String note;
+    private Date date;
     List<entity.TransactionDetail> transactionDetails = new ArrayList<>();
     
-   public Transaction (Cashier cashier, Customer customer, String invoiceNo, double total, entity.Payment payment, double amount, String note, List<entity.TransactionDetail> transactionDetails) {
-   this.customer = customer;
-   this.invoiceNo = invoiceNo;
-   this.total = total;
-   this.payment = payment;
-   this.amount = amount;
-   this.note = note;
-   this.transactionDetails = transactionDetails;
-} 
-   public Cashier getCashier(){
-    return this.cashier;
+   public Transaction (Cashier cashier, Customer customer, String invoiceNo, long total, entity.Payment payment, String note, List<entity.TransactionDetail> transactionDetails) {
+        this.customer = customer;
+        this.invoiceNo = invoiceNo;
+        this.total = total;
+        this.payment = payment;
+        this.transactionDetails = transactionDetails;
+    } 
+   
+    public Transaction() {}
+   
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+   
+    public Cashier getCashier(){
+        return this.cashier;
     }
     
     public void setCashier(Cashier cashier) {
@@ -52,11 +62,11 @@ public class Transaction {
         this.invoiceNo = invoiceNo;
     }
 
-    public double getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 
@@ -67,21 +77,13 @@ public class Transaction {
     public void setPayment(entity.Payment payment) {
         this.payment = payment;
     }
-
-    public double getAmount() {
-        return amount;
+    
+    public Date getDate() {
+        return date;
     }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
+    
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public List<entity.TransactionDetail> getTransactionDetails() {

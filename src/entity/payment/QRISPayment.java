@@ -26,16 +26,16 @@ public class QRISPayment implements contracts.Payment {
     }
     
     @Override
-    public boolean pay(long payment) {
-        return true;
-    }
-    
-    @Override
     public String getInsertSQL() {
         String query = "INSERT INTO payments (payment_method_id, amount_paid) values (";
-        query += String.format("SELECT id FROM payment_methods WHERE name = 'cash', %d", amountPaid);
+        query += String.format("(SELECT id FROM payment_methods WHERE name = 'qris'), %d", amountPaid);
         query += ")";
         
         return query;
+    }
+    
+    @Override
+    public String getType() {
+        return "qris";
     }
 }

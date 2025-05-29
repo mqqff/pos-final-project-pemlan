@@ -27,21 +27,21 @@ public class CashPayment implements contracts.Payment {
         this.amountPaid = amountPaid;
     }
     
-    public double getChange() {
+    public long getChange() {
         return amountPaid - total;
-    }
-    
-    @Override
-    public boolean pay(long amount) {
-        return true;
     }
     
     @Override
     public String getInsertSQL() {
         String query = "INSERT INTO payments (payment_method_id, amount_paid) values (";
-        query += String.format("SELECT id FROM payment_methods WHERE name = 'cash', %d", amountPaid);
+        query += String.format("(SELECT id FROM payment_methods WHERE name = 'cash'), %d", amountPaid);
         query += ")";
         
         return query;
+    }
+    
+    @Override
+    public String getType() {
+        return "cash";
     }
 }

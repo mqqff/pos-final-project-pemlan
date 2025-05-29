@@ -4,26 +4,49 @@
  */
 package view;
 
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 /**
  *
  * @author atha3
  */
 public class TransactionHistory extends javax.swing.JPanel {
-
+    private final repository.Transaction transactionRepo = new repository.Transaction();
+    private final List<entity.Transaction> transactions = new ArrayList<>();
+    private final repository.TransactionDetail transactionDetailRepo = new repository.TransactionDetail();
+            
     /**
      * Creates new form TransactionHistory
      */
     public TransactionHistory() {
         initComponents();
-        loadTransactionHistory();
+        reload();
     }
     
-    private void loadTransactionHistory() {
+    public void reload() {
+        List<entity.Transaction> tr = transactionRepo.getAllTransactions();
+        
         DefaultTableModel model = (DefaultTableModel) transactionHistoryTable.getModel();
-        model.addRow(new Object[]{ 1, "INV-2342342", 100000, "Cash", "24-06-2025" });
+        
+        DefaultTableModel detailModel = (DefaultTableModel) transactionDetailsTable.getModel();
+        
+        detailModel.setRowCount(0);
+        model.setRowCount(0);
+        int rowNum = 1;
+        for (entity.Transaction t : tr) {
+            model.addRow(new Object[]{ rowNum++, t.getInvoiceNo(), "Rp. " + t.getTotal(), t.getPayment().getType(), t.getDate().toString() });
+            transactions.add(t);
+        }
+    }
+    
+    public void focusSearch() {
+        search.grabFocus();
     }
 
     /**
@@ -52,13 +75,22 @@ public class TransactionHistory extends javax.swing.JPanel {
         labelPayment = new javax.swing.JLabel();
         labelCashier = new javax.swing.JLabel();
         cashier = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        note = new javax.swing.JTextArea();
-        labelNote = new javax.swing.JLabel();
+        detailPaymentPanel = new javax.swing.JPanel();
+        bgPanel = new javax.swing.JPanel();
+        cardPanel = new javax.swing.JPanel();
+        cardNumberLabel = new javax.swing.JLabel();
+        cardNumber = new javax.swing.JTextField();
+        cashPanel = new javax.swing.JPanel();
+        amountLabel = new javax.swing.JLabel();
+        amount = new javax.swing.JTextField();
+        changeLabel = new javax.swing.JLabel();
+        change = new javax.swing.JTextField();
         transactionHistoryTitle = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         transactionHistoryTable = new javax.swing.JTable();
         btnShowDetails = new javax.swing.JButton();
+        search = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
 
         dialogTransactionDetails.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogTransactionDetails.setTitle("Transaction Details");
@@ -100,22 +132,112 @@ public class TransactionHistory extends javax.swing.JPanel {
 
         labelDate.setText("Date");
 
+        date.setEnabled(false);
+
         labelInvoiceNo.setText("Invoice No");
+
+        invoiceNo.setEnabled(false);
 
         labelCustomer.setText("Customer");
 
+        customer.setEnabled(false);
+
         labelTotal.setText("Total");
+
+        total.setEnabled(false);
+
+        payment.setEnabled(false);
 
         labelPayment.setText("Payment");
 
         labelCashier.setText("Cashier");
 
-        note.setColumns(18);
-        note.setRows(4);
-        note.setTabSize(7);
-        jScrollPane2.setViewportView(note);
+        cashier.setEnabled(false);
 
-        labelNote.setText("Note");
+        bgPanel.setLayout(new java.awt.CardLayout());
+
+        cardNumberLabel.setText("Card Number");
+
+        cardNumber.setEnabled(false);
+
+        javax.swing.GroupLayout cardPanelLayout = new javax.swing.GroupLayout(cardPanel);
+        cardPanel.setLayout(cardPanelLayout);
+        cardPanelLayout.setHorizontalGroup(
+            cardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cardNumberLabel)
+                .addGap(18, 18, 18)
+                .addComponent(cardNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE))
+        );
+        cardPanelLayout.setVerticalGroup(
+            cardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardPanelLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(cardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cardNumberLabel)
+                    .addComponent(cardNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
+
+        bgPanel.add(cardPanel, "card2");
+
+        amountLabel.setText("Amount");
+
+        amount.setEnabled(false);
+
+        changeLabel.setText("Change");
+
+        change.setEnabled(false);
+
+        javax.swing.GroupLayout cashPanelLayout = new javax.swing.GroupLayout(cashPanel);
+        cashPanel.setLayout(cashPanelLayout);
+        cashPanelLayout.setHorizontalGroup(
+            cashPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cashPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cashPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cashPanelLayout.createSequentialGroup()
+                        .addComponent(amountLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(amount, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
+                    .addGroup(cashPanelLayout.createSequentialGroup()
+                        .addComponent(changeLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(change))))
+        );
+        cashPanelLayout.setVerticalGroup(
+            cashPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cashPanelLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(cashPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(amountLabel)
+                    .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(cashPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(changeLabel)
+                    .addComponent(change, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+
+        bgPanel.add(cashPanel, "card2");
+
+        javax.swing.GroupLayout detailPaymentPanelLayout = new javax.swing.GroupLayout(detailPaymentPanel);
+        detailPaymentPanel.setLayout(detailPaymentPanelLayout);
+        detailPaymentPanelLayout.setHorizontalGroup(
+            detailPaymentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+            .addGroup(detailPaymentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        detailPaymentPanelLayout.setVerticalGroup(
+            detailPaymentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 115, Short.MAX_VALUE)
+            .addGroup(detailPaymentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(detailPaymentPanelLayout.createSequentialGroup()
+                    .addComponent(bgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout transactionDetailsPanelLayout = new javax.swing.GroupLayout(transactionDetailsPanel);
         transactionDetailsPanel.setLayout(transactionDetailsPanelLayout);
@@ -127,7 +249,7 @@ public class TransactionHistory extends javax.swing.JPanel {
                     .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addComponent(transactionDetailsTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-                        .addGap(78, 78, 78))
+                        .addGap(84, 84, 84))
                     .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
                         .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelCustomer)
@@ -149,10 +271,8 @@ public class TransactionHistory extends javax.swing.JPanel {
                             .addComponent(payment)
                             .addComponent(cashier, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(labelNote)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(detailPaymentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
             .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -163,35 +283,38 @@ public class TransactionHistory extends javax.swing.JPanel {
             transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
                 .addComponent(transactionDetailsTitle)
-                .addGap(23, 23, 23)
                 .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
-                        .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelDate))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelInvoiceNo)
-                            .addComponent(invoiceNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(customer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelCustomer)))
-                    .addComponent(labelNote)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)
+                        .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
+                                .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelDate))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(labelInvoiceNo)
+                                    .addComponent(invoiceNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(customer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelCustomer)))
+                            .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
+                                .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelTotal))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(payment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelPayment))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cashier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelCashier)))))
                     .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
-                        .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelTotal))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(payment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelPayment))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cashier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelCashier))))
-                .addContainerGap(390, Short.MAX_VALUE))
+                        .addComponent(detailPaymentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(376, Short.MAX_VALUE))
             .addGroup(transactionDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(transactionDetailsPanelLayout.createSequentialGroup()
                     .addContainerGap(165, Short.MAX_VALUE)
@@ -257,6 +380,19 @@ public class TransactionHistory extends javax.swing.JPanel {
             }
         });
 
+        search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchKeyPressed(evt);
+            }
+        });
+
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -264,12 +400,16 @@ public class TransactionHistory extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(transactionHistoryTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnShowDetails))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnShowDetails)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 729, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(transactionHistoryTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSearch)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -279,8 +419,12 @@ public class TransactionHistory extends javax.swing.JPanel {
                 .addComponent(transactionHistoryTitle)
                 .addGap(27, 27, 27)
                 .addComponent(btnShowDetails)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -296,35 +440,106 @@ public class TransactionHistory extends javax.swing.JPanel {
         dialogTransactionDetails.pack();
         dialogTransactionDetails.setLocationRelativeTo(this);
         
-        String invoiceNo = transactionHistoryTable.getValueAt(row, 1).toString();
-        // get transaction and transactions details by invoice no (use controller)
-        // create function to load transaction details
-        // load transaction details using function
+        String target = transactionHistoryTable.getValueAt(row, 1).toString();
+        int transactionId = transactions.stream().filter(p -> target.equals(p.getInvoiceNo())).map(entity.Transaction::getId).findFirst().orElse(-1);
         
+        entity.Transaction t = transactions.stream().filter(transaction -> transaction.getId() == transactionId).findFirst().orElse(null);
+        date.setText(t.getDate().toString());
+        invoiceNo.setText(t.getInvoiceNo());
+        total.setText("Rp. " + String.valueOf(t.getTotal()));
+        cashier.setText(t.getCashier().getName());
+        customer.setText("-");
+        
+        String type = t.getPayment().getType();
+        payment.setText(type);
+        
+        amount.setText("");
+        change.setText("");
+        cardNumber.setText("");
+        cashPanel.setVisible(false);
+        cardPanel.setVisible(false);
+        
+        if (type.equalsIgnoreCase("cash")) {
+            amount.setText("Rp. " + String.valueOf(t.getPayment().getAmountPaid()));
+            change.setText("Rp. " + String.valueOf(t.getPayment().getChange(t.getTotal())));
+            cashPanel.setVisible(true);
+        } else if (type.equalsIgnoreCase("card")) {
+            cardNumber.setText(t.getPayment().getCardNumber());
+            cardPanel.setVisible(true);
+        }
+        
+        if (t.getCustomer() != null) {
+            customer.setText(t.getCustomer().getName());
+        }
+        
+        List<entity.TransactionDetail> rows = transactionDetailRepo.getTransactionDetailsByTransactionId(transactionId);
+        t.setTransactionDetails(rows);
+        
+        DefaultTableModel model = (DefaultTableModel) transactionDetailsTable.getModel();
+        model.setRowCount(0);
+        
+        int rowNum = 1;
+        for (entity.TransactionDetail td : t.getTransactionDetails()) {
+            int qty = td.getQty();
+            long price = td.getProduct().getPrice();
+            long subtotal = qty * price;
+            model.addRow(new Object[] { rowNum++, td.getProduct().getName(), price, qty, subtotal });
+        }
+                
         transactionDetailsTable.clearSelection();
         dialogTransactionDetails.setVisible(true);
     }//GEN-LAST:event_btnShowDetailsActionPerformed
 
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        search();
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void search() {
+        String target = search.getText();
+        List<entity.Transaction> t = transactions.stream().filter(transaction -> transaction.getInvoiceNo().toLowerCase().contains(target.toLowerCase())).collect(Collectors.toList());
+        
+        DefaultTableModel model = (DefaultTableModel) transactionHistoryTable.getModel();
+        model.setRowCount(0);
+        
+        int rowNum = 1;
+        for (entity.Transaction tr : t) {
+            model.addRow(new Object[] { rowNum++, tr.getInvoiceNo(), "Rp. " + tr.getTotal(), tr.getPayment().getType(), tr.getDate().toString() });
+        }
+    }
+    
+    private void searchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) search();
+    }//GEN-LAST:event_searchKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField amount;
+    private javax.swing.JLabel amountLabel;
+    private javax.swing.JPanel bgPanel;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnShowDetails;
+    private javax.swing.JTextField cardNumber;
+    private javax.swing.JLabel cardNumberLabel;
+    private javax.swing.JPanel cardPanel;
+    private javax.swing.JPanel cashPanel;
     private javax.swing.JTextField cashier;
+    private javax.swing.JTextField change;
+    private javax.swing.JLabel changeLabel;
     private javax.swing.JTextField customer;
     private javax.swing.JTextField date;
+    private javax.swing.JPanel detailPaymentPanel;
     private javax.swing.JDialog dialogTransactionDetails;
     private javax.swing.JTextField invoiceNo;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel labelCashier;
     private javax.swing.JLabel labelCustomer;
     private javax.swing.JLabel labelDate;
     private javax.swing.JLabel labelInvoiceNo;
-    private javax.swing.JLabel labelNote;
     private javax.swing.JLabel labelPayment;
     private javax.swing.JLabel labelTotal;
-    private javax.swing.JTextArea note;
     private javax.swing.JTextField payment;
+    private javax.swing.JTextField search;
     private javax.swing.JTextField total;
     private javax.swing.JPanel transactionDetailsPanel;
     private javax.swing.JTable transactionDetailsTable;

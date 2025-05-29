@@ -10,9 +10,11 @@ package entity.payment;
  */
 public class CardPayment implements contracts.Payment {
     private String cardNumber;
+    private long amountPaid;
 
-    public CardPayment(String cardNumber) {
+    public CardPayment(long amountPaid, String cardNumber) {
         this.cardNumber = cardNumber;
+        this.amountPaid = amountPaid;
     }
     
     public CardPayment() {}
@@ -25,21 +27,25 @@ public class CardPayment implements contracts.Payment {
         this.cardNumber = cardNumber;
     }
     
-     @Override
-    public boolean pay(long amount) {
-        return true;
+    public long getAmountPaid() {
+        return amountPaid;
+    }
+    
+    public void setAmountPaid(long amountPaid) {
+        this.amountPaid = amountPaid;
     }
     
     @Override
     public String getInsertSQL() {
         String query = "INSERT INTO payments (payment_method_id, card_number, amount_paid) values (";
-        query += String.format("SELECT id FROM payment_methods WHERE name = 'card', '%s'", cardNumber);
+        query += String.format("(SELECT id FROM payment_methods WHERE name = 'card'), '%s', '%d'", cardNumber, amountPaid);
         query += ")";
         
         return query;
     }
-
-  
-
-  
+    
+    @Override
+    public String getType() {
+        return "card";
+    }
 }

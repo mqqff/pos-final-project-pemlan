@@ -9,6 +9,6 @@ package contracts;
  * @author atha3
  */
 public interface Payment {
-    boolean pay(long amount);
+    String getType();
     String getInsertSQL();
 }
