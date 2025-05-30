@@ -85,6 +85,7 @@ public class TransactionHistory extends javax.swing.JPanel {
         amount = new javax.swing.JTextField();
         changeLabel = new javax.swing.JLabel();
         change = new javax.swing.JTextField();
+        qrisPanel = new javax.swing.JPanel();
         transactionHistoryTitle = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         transactionHistoryTable = new javax.swing.JTable();
@@ -222,6 +223,19 @@ public class TransactionHistory extends javax.swing.JPanel {
 
         bgPanel.add(cashPanel, "card2");
 
+        javax.swing.GroupLayout qrisPanelLayout = new javax.swing.GroupLayout(qrisPanel);
+        qrisPanel.setLayout(qrisPanelLayout);
+        qrisPanelLayout.setHorizontalGroup(
+            qrisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+        );
+        qrisPanelLayout.setVerticalGroup(
+            qrisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 109, Short.MAX_VALUE)
+        );
+
+        bgPanel.add(qrisPanel, "card2");
+
         javax.swing.GroupLayout detailPaymentPanelLayout = new javax.swing.GroupLayout(detailPaymentPanel);
         detailPaymentPanel.setLayout(detailPaymentPanelLayout);
         detailPaymentPanelLayout.setHorizontalGroup(
@@ -236,7 +250,7 @@ public class TransactionHistory extends javax.swing.JPanel {
             .addGroup(detailPaymentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(detailPaymentPanelLayout.createSequentialGroup()
                     .addComponent(bgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGap(0, 6, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout transactionDetailsPanelLayout = new javax.swing.GroupLayout(transactionDetailsPanel);
@@ -402,14 +416,12 @@ public class TransactionHistory extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(transactionHistoryTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnShowDetails))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSearch)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnShowDetails)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -417,12 +429,11 @@ public class TransactionHistory extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(transactionHistoryTitle)
-                .addGap(27, 27, 27)
-                .addComponent(btnShowDetails)
-                .addGap(13, 13, 13)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch))
+                    .addComponent(btnSearch)
+                    .addComponent(btnShowDetails))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -458,6 +469,7 @@ public class TransactionHistory extends javax.swing.JPanel {
         cardNumber.setText("");
         cashPanel.setVisible(false);
         cardPanel.setVisible(false);
+        qrisPanel.setVisible(false);
         
         if (type.equalsIgnoreCase("cash")) {
             amount.setText("Rp. " + String.valueOf(t.getPayment().getAmountPaid()));
@@ -466,6 +478,8 @@ public class TransactionHistory extends javax.swing.JPanel {
         } else if (type.equalsIgnoreCase("card")) {
             cardNumber.setText(t.getPayment().getCardNumber());
             cardPanel.setVisible(true);
+        } else {
+            qrisPanel.setVisible(true);
         }
         
         if (t.getCustomer() != null) {
@@ -539,6 +553,7 @@ public class TransactionHistory extends javax.swing.JPanel {
     private javax.swing.JLabel labelPayment;
     private javax.swing.JLabel labelTotal;
     private javax.swing.JTextField payment;
+    private javax.swing.JPanel qrisPanel;
     private javax.swing.JTextField search;
     private javax.swing.JTextField total;
     private javax.swing.JPanel transactionDetailsPanel;

@@ -237,14 +237,14 @@ public class Product extends javax.swing.JPanel {
         String targetName = productName.getText();
         entity.Product pr = products.stream().filter(p -> p.getName().equalsIgnoreCase(targetName)).findFirst().orElse(null);
         if (pr != null) {
-            JOptionPane.showMessageDialog(this, " product with name ' " + targetName +  " 'already exist");
+            JOptionPane.showMessageDialog(this, " product with name '" + targetName +  "' already exist");
             return;
         }
         
         String targetCode = productCode.getText();
         pr = products.stream().filter(p -> p.getCode().equalsIgnoreCase(targetCode)).findFirst().orElse(null);
         if (pr != null) {
-            JOptionPane.showMessageDialog(this, " product with code ' " + targetCode +  " 'already exist");
+            JOptionPane.showMessageDialog(this, " product with code ' " + targetCode +  "' already exist");
             return;
         }
 

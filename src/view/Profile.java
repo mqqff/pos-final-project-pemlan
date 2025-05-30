@@ -82,6 +82,24 @@ public class Profile extends javax.swing.JPanel {
             }
         });
 
+        oldPasswordInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                oldPasswordInputKeyPressed(evt);
+            }
+        });
+
+        newPasswordInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                newPasswordInputKeyPressed(evt);
+            }
+        });
+
+        confirmationPasswordInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                confirmationPasswordInputKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout changePasswordPanelLayout = new javax.swing.GroupLayout(changePasswordPanel);
         changePasswordPanel.setLayout(changePasswordPanelLayout);
         changePasswordPanelLayout.setHorizontalGroup(
@@ -128,16 +146,16 @@ public class Profile extends javax.swing.JPanel {
         changePasswordDialog.getContentPane().setLayout(changePasswordDialogLayout);
         changePasswordDialogLayout.setHorizontalGroup(
             changePasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 219, Short.MAX_VALUE)
             .addGroup(changePasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(changePasswordDialogLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 6, Short.MAX_VALUE)
                     .addComponent(changePasswordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 7, Short.MAX_VALUE)))
         );
         changePasswordDialogLayout.setVerticalGroup(
             changePasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 240, Short.MAX_VALUE)
             .addGroup(changePasswordDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(changePasswordDialogLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -297,6 +315,18 @@ public class Profile extends javax.swing.JPanel {
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         updatePassword();
     }//GEN-LAST:event_btnSubmitActionPerformed
+
+    private void oldPasswordInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_oldPasswordInputKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) updatePassword();
+    }//GEN-LAST:event_oldPasswordInputKeyPressed
+
+    private void newPasswordInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newPasswordInputKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) updatePassword();
+    }//GEN-LAST:event_newPasswordInputKeyPressed
+
+    private void confirmationPasswordInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_confirmationPasswordInputKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) updatePassword();
+    }//GEN-LAST:event_confirmationPasswordInputKeyPressed
 
     private void updateProfile() {
         if (name.getText().isEmpty() || username.getText().isEmpty() || phone.getText().isEmpty()) {

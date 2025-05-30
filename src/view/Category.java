@@ -160,7 +160,7 @@ public class Category extends javax.swing.JPanel {
         String target = categoryName.getText();
         entity.Category ca = categories.stream().filter(c -> c.getName().equalsIgnoreCase(target)).findFirst().orElse(null);
         if (ca != null) {
-            JOptionPane.showMessageDialog(this, "Category with name '" + target + "'already exist");
+            JOptionPane.showMessageDialog(this, "Category with name '" + target + "' already exist");
             return;
         }
 
