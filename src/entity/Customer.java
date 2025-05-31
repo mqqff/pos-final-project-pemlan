@@ -4,33 +4,49 @@
  */
 package entity;
 
-/**
- *
- * @author nara
- */
-public class Customer extends contracts.Person{
-    private int id;
+public class Customer {
+    private String name;
     private String address;
-    
-    public Customer(String address){
+    private String phone;
+    private int id;
+
+    public Customer() {
+    }
+
+    public Customer(int id, String name, String address, String phone) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
     }
-    
-    public Customer() {}
-    
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
     public int getId() {
         return id;
     }
-    
     public void setId(int id) {
-        this.id = id;
-    }
-    
-    public String getAddress(){
-        return this.address;
-    }
-    
-    public void setAddress(String address) {
-        this.address = address;
+        this.id = id; 
     }
 }
