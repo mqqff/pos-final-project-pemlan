@@ -23,7 +23,7 @@ import pkg.Session;
 public class Transaction extends javax.swing.JPanel {
         private final controller.Product productController = new controller.Product();
         private final controller.Transaction transactionController = new controller.Transaction();
-//        private final controller.Customer customerController = new controller.Customer();
+        private final controller.Customer customerController = new controller.Customer();
         private final List<entity.TransactionDetail> cart = new ArrayList<>();
         private final List<entity.Customer> customers = new ArrayList<>();
         private final DefaultTableModel model;
@@ -691,7 +691,8 @@ public class Transaction extends javax.swing.JPanel {
                 int newQty = td.getQty() + qty;
                 td.setQty(newQty);
                 int row = Helper.findRowByValueInColumn(model, 1, itemName);
-                model.setValueAt("Rp. " + subtotal, row, 4);
+                long oldSubTotal = Long.parseLong(model.getValueAt(row, 4).toString().substring(4));
+                model.setValueAt("Rp. " + (subtotal + oldSubTotal), row, 4);
                 model.setValueAt(newQty, row, 3);
             } else {
                 entity.TransactionDetail item = new TransactionDetail(qty, product);
@@ -883,12 +884,11 @@ public class Transaction extends javax.swing.JPanel {
     public void loadCustomer() {
         transactionCustomer.removeAllItems();
         transactionCustomer.addItem("");
-        transactionCustomer.addItem("John Doe");
-//        List<entity.Customer> rows = customerController.getAllCustomers();
-//        for (entity.Customer c : rows) {
-//            customers.add(c);
-//            transactionCustomer.addItem(c.getName());
-//        }
+        List<entity.Customer> rows = customerController.getAllCustomers();
+        for (entity.Customer c : rows) {
+            customers.add(c);
+            transactionCustomer.addItem(c.getName());
+        }
     }
     
     public void initCashier() {

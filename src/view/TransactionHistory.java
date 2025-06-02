@@ -459,7 +459,12 @@ public class TransactionHistory extends javax.swing.JPanel {
         invoiceNo.setText(t.getInvoiceNo());
         total.setText("Rp. " + String.valueOf(t.getTotal()));
         cashier.setText(t.getCashier().getName());
-        customer.setText("-");
+        
+        if (t.getCustomer() != null) {
+            customer.setText(t.getCustomer().getName());
+        } else {
+            customer.setText("-");
+        }
         
         String type = t.getPayment().getType();
         payment.setText(type);
