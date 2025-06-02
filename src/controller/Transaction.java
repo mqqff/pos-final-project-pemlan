@@ -75,6 +75,10 @@ public class Transaction {
         return 1;
     }
     
+    public List<entity.Transaction> getAllTransactions() {
+        return transactionRepo.getAllTransactions();
+    }
+    
     public long countTransactions() {
         return transactionRepo.countTransactions();
     }

@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
  * @author atha3
  */
 public class TransactionHistory extends javax.swing.JPanel {
-    private final repository.Transaction transactionRepo = new repository.Transaction();
+    private final controller.Transaction trCtr = new controller.Transaction();
+    private final controller.TransactionDetail tdCtr = new controller.TransactionDetail();
     private final List<entity.Transaction> transactions = new ArrayList<>();
-    private final repository.TransactionDetail transactionDetailRepo = new repository.TransactionDetail();
             
     /**
      * Creates new form TransactionHistory
@@ -30,7 +30,7 @@ public class TransactionHistory extends javax.swing.JPanel {
     }
     
     public void reload() {
-        List<entity.Transaction> tr = transactionRepo.getAllTransactions();
+        List<entity.Transaction> tr = trCtr.getAllTransactions();
         
         DefaultTableModel model = (DefaultTableModel) transactionHistoryTable.getModel();
         
@@ -459,7 +459,12 @@ public class TransactionHistory extends javax.swing.JPanel {
         invoiceNo.setText(t.getInvoiceNo());
         total.setText("Rp. " + String.valueOf(t.getTotal()));
         cashier.setText(t.getCashier().getName());
-        customer.setText("-");
+        
+        if (t.getCustomer() != null) {
+            customer.setText(t.getCustomer().getName());
+        } else {
+            customer.setText("-");
+        }
         
         String type = t.getPayment().getType();
         payment.setText(type);
@@ -486,7 +491,7 @@ public class TransactionHistory extends javax.swing.JPanel {
             customer.setText(t.getCustomer().getName());
         }
         
-        List<entity.TransactionDetail> rows = transactionDetailRepo.getTransactionDetailsByTransactionId(transactionId);
+        List<entity.TransactionDetail> rows = tdCtr.getTransactionDetailsByTransactionId(transactionId);
         t.setTransactionDetails(rows);
         
         DefaultTableModel model = (DefaultTableModel) transactionDetailsTable.getModel();

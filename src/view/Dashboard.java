@@ -9,8 +9,9 @@ package view;
  * @author atha3
  */
 public class Dashboard extends javax.swing.JPanel {
-    private controller.Transaction transCtr = new controller.Transaction();
-    private controller.Product prodCtr = new controller.Product();
+    private final controller.Transaction transCtr = new controller.Transaction();
+    private final controller.Product prodCtr = new controller.Product();
+    private final controller.Customer custCtr = new controller.Customer();
 
     /**
      * Creates new form Dashboard
@@ -24,10 +25,12 @@ public class Dashboard extends javax.swing.JPanel {
         long countProducts = prodCtr.countProducts();
         long countTransactions = transCtr.countTransactions();
         long countIncome = transCtr.countIncome();
+        long countCustomers = custCtr.countCustomers();
         
         totalProducts.setText(String.valueOf(countProducts));
         totalTransactions.setText(String.valueOf(countTransactions));
         totalIncome.setText("Rp. " + String.valueOf(countIncome));
+        totalCustomers.setText(String.valueOf(countCustomers));
     }
 
     /**

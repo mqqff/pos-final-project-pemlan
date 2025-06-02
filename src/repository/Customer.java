@@ -78,4 +78,17 @@ public class Customer {
         }
         return 0;
     }
+    
+    public long countCustomers() {
+    try {
+        String query = "SELECT count(*) AS total_customers FROM customers";
+        Map<String, Object> row = conn.executeQuery(query).getFirst();
+
+        return Long.parseLong(row.get("total_customers").toString());
+    } catch (SQLException e) {
+        Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+    }
+
+    return 0;
+  }
 }

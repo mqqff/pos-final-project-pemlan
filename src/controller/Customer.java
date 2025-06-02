@@ -41,4 +41,8 @@ public class Customer {
     public List<entity.Customer> getAllCustomers() {
         return customerRepo.getAllCustomers();
     }
+    
+    public long countCustomers() {
+      return customerRepo.countCustomers();
+  }
 }
