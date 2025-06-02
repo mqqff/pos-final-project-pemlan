@@ -4,6 +4,7 @@
  */
 package view;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,7 +15,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Category extends javax.swing.JPanel {
     private final controller.Category categoryController = new controller.Category();
-    private String originalCategoryName;
+    private final List<entity.Category> categories = new ArrayList<>();
+    private int modifiedCategoryId;
 
     /**
      * Creates new form Category
@@ -154,15 +156,22 @@ public class Category extends javax.swing.JPanel {
     private void btnAddCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCategoryActionPerformed
         if (!validateFields())
             return;
+        
+        String target = categoryName.getText();
+        entity.Category ca = categories.stream().filter(c -> c.getName().equalsIgnoreCase(target)).findFirst().orElse(null);
+        if (ca != null) {
+            JOptionPane.showMessageDialog(this, "Category with name '" + target + "' already exist");
+            return;
+        }
 
-        int rowsAffected = categoryController.createCategory(categoryName.getText(), categoryDescription.getText());
+        int rowsAffected = categoryController.createCategory(target, categoryDescription.getText());
 
         if (rowsAffected == 0) {
             JOptionPane.showMessageDialog(this, "Ooops... Failed", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        JOptionPane.showMessageDialog(this, "Scucessfully add category");
+        JOptionPane.showMessageDialog(this, "Successfully add category");
         reload();
     }//GEN-LAST:event_btnAddCategoryActionPerformed
 
@@ -179,14 +188,17 @@ public class Category extends javax.swing.JPanel {
                 "Delete Category", JOptionPane.YES_NO_OPTION);
         if (confirm != JOptionPane.YES_OPTION) return;
 
-        DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
-        int rowsAffected = categoryController.deleteCategory(categoryTable.getValueAt(row, 1).toString());
+        String targetName = categoryTable.getValueAt(row, 1).toString();
+        int id = categories.stream().filter(p -> targetName.equals(p.getName())).map(entity.Category::getId).findFirst().orElse(-1);
+        
+        int rowsAffected = categoryController.deleteCategory(id);
 
         if (rowsAffected == 0) {
             JOptionPane.showMessageDialog(this, "Ooops... Failed", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+        DefaultTableModel model = (DefaultTableModel) categoryTable.getModel();
         model.removeRow(row);
         JOptionPane.showMessageDialog(this, "Successfully delete category");
         reload();
@@ -202,9 +214,11 @@ public class Category extends javax.swing.JPanel {
                 return;
             }
 
-            entity.Category c = categoryController.getCategoryByName(categoryTable.getValueAt(row, 1).toString());
-
-            originalCategoryName = c.getName();
+            String targetName = categoryTable.getValueAt(row, 1).toString();
+            int id = categories.stream().filter(p -> targetName.equals(p.getName())).map(entity.Category::getId).findFirst().orElse(-1);
+            modifiedCategoryId = id;
+            
+            entity.Category c = categoryController.getCategoryById(id);
 
             categoryName.setText(c.getName());
             categoryDescription.setText(c.getDescription());
@@ -213,15 +227,22 @@ public class Category extends javax.swing.JPanel {
             categoryTable.clearSelection();
         } else {
             if (!validateFields()) return;
+            
+            String target = categoryName.getText();
+            entity.Category ca = categories.stream().filter(c -> c.getName().equalsIgnoreCase(target) && c.getId() != modifiedCategoryId).findFirst().orElse(null);
+            if (ca != null) {
+                JOptionPane.showMessageDialog(this, "Category with name '" + target + "' already exist");
+                return;
+            }
 
-            int rowsAffected = categoryController.updateCategory(categoryName.getText(), categoryDescription.getText(), originalCategoryName);
+            int rowsAffected = categoryController.updateCategory(categoryName.getText(), categoryDescription.getText(), modifiedCategoryId);
 
             if (rowsAffected == 0) {
                 JOptionPane.showMessageDialog(this, "Ooops... Failed", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             
-            JOptionPane.showMessageDialog(this, "Scucessfully update category");
+            JOptionPane.showMessageDialog(this, "Successfully update category");
             reload();
         }
     }//GEN-LAST:event_btnEditCategoryActionPerformed
@@ -232,16 +253,17 @@ public class Category extends javax.swing.JPanel {
         model.setRowCount(0);
 
         int rowNum = 1;
-        List<entity.Category> categories = categoryController.getAllCategories();
-        for (entity.Category c : categories) {
+        List<entity.Category> res = categoryController.getAllCategories();
+        for (entity.Category c : res) {
             model.addRow(new Object[] { rowNum++, c.getName(), c.getDescription() });
+            categories.add(c);
         }
 
         btnEditCategory.setSelected(false);
         categoryName.setText("");
         categoryDescription.setText("");
         btnEditCategory.setText("Edit");
-        originalCategoryName = "";
+        modifiedCategoryId = -1;
         categoryTable.clearSelection();
     }
 

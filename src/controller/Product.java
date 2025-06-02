@@ -26,28 +26,43 @@ public class Product {
     return productRepo.createProduct(p);
   }
 
-  public int updateProduct(String name, String code, String categoryName, int stock, long price, String oldCode) {
+  public int updateProduct(String name, String code, String categoryName, int stock, long price, int id) {
     entity.Product p = new entity.Product();
     entity.Category c = new entity.Category();
     c.setName(categoryName);
 
+    p.setId(id);
     p.setName(name);
     p.setCode(code);
     p.setCategory(c);
     p.setStock(stock);
     p.setPrice(price);
-    return productRepo.updateProduct(p, oldCode);
+    return productRepo.updateProduct(p);
   }
 
+  public entity.Product getProductById(int id) {
+    entity.Product p = new entity.Product();
+    p.setId(id);
+    return productRepo.getProductById(p);
+  }
+  
   public entity.Product getProductByCode(String code) {
-    return productRepo.getProductByCode(code);
+    entity.Product p = new entity.Product();
+    p.setCode(code);
+    return productRepo.getProductByCode(p);
   }
 
-  public int deleteProduct(String code) {
-    return productRepo.deleteProduct(code);
+  public int deleteProduct(int id) {
+    entity.Product p = new entity.Product();
+    p.setId(id);
+    return productRepo.deleteProduct(p);
   }
 
   public List<entity.Product> getAllProducts() {
     return productRepo.getAllProducts();
+  }
+  
+  public long countProducts() {
+      return productRepo.countProducts();
   }
 }

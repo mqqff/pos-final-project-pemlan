@@ -10,16 +10,23 @@ package contracts;
  * @author atha3
  */
 public abstract class Person {
+    protected int id;
     protected String name;
     protected String phone;
     
     public Person(String name, String phone) {
-        this.name = name;
-        this.phone = phone;
+       this.name =  name;
+       this.phone = phone;
     }
     
-    public Person() {
-        
+    public Person(){}
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getId() {
+        return id;
     }
     
     public String getName() {

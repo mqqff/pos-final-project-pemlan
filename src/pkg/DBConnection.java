@@ -5,9 +5,9 @@ import java.util.*;
 import java.util.logging.*;
 
 public class DBConnection {
-    private  final String URL = "jdbc:mysql://103.196.155.124:3306/final_project_pemlan";
-    private final String USER = "kelompok4-pemlan";
-    private final String PASS = "kelompok-kita-keren";
+    private  final String URL = "jdbc:sqlserver://103.196.155.124:1433;databaseName=pos;encrypt=true;trustServerCertificate=true";
+    private final String USER = "kel4";
+    private final String PASS = "Qwerty1029";
     private Connection conn;
     
     public DBConnection() {
@@ -16,7 +16,7 @@ public class DBConnection {
 
     private void connect() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             this.conn = DriverManager.getConnection(URL, USER, PASS);
         } catch (SQLException e) {
             e.printStackTrace();

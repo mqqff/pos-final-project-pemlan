@@ -20,19 +20,24 @@ public class Category {
         return categoryRepo.createCategory(c);
     }
     
-    public int updateCategory(String name, String description, String oldName) {
+    public int updateCategory(String name, String description, int id) {
         entity.Category c = new entity.Category();
+        c.setId(id);
         c.setName(name);
         c.setDescription(description);
-        return categoryRepo.updateCategory(c, oldName);
+        return categoryRepo.updateCategory(c);
     }
     
-    public entity.Category getCategoryByName(String name) {
-        return categoryRepo.getCategoryByName(name);
+    public entity.Category getCategoryById(int id) {
+        entity.Category c = new entity.Category();
+        c.setId(id);
+        return categoryRepo.getCategoryById(c);
     }
     
-    public int deleteCategory(String name) {
-        return categoryRepo.deleteCategory(name);
+    public int deleteCategory(int id) {
+        entity.Category c = new entity.Category();
+        c.setId(id);
+        return categoryRepo.deleteCategory(c);
     }
 
     public List<entity.Category> getAllCategories() {

@@ -9,21 +9,21 @@ package pkg;
  * @author atha3    
  */
 public class Session {
-    private static entity.Cashier currentUser;
+    private static entity.Cashier currentCashier;
 
-    public static void setUser(entity.Cashier user) {
-        currentUser = user;
+    public static void setCashier(entity.Cashier cashier) {
+        currentCashier = cashier;
     }
 
-    public static entity.Cashier getUser() {
-        return currentUser;
+    public static entity.Cashier getCashier() {
+        return currentCashier;
     }
 
     public static void clear() {
-        currentUser = null;
+        currentCashier = null;
     }
 
     public static boolean isLoggedIn() {
-        return currentUser != null;
+        return currentCashier != null;
     }
 }

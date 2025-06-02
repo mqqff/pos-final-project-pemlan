@@ -4,17 +4,71 @@
  */
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author atha3
  */
 public class Customer extends javax.swing.JPanel {
+    private final controller.Customer customerController = new controller.Customer();
+    private final List<entity.Customer> customers = new ArrayList<>();
+    private int modifiedCustomerId;
+    
 
     /**
      * Creates new form Customer
      */
     public Customer() {
         initComponents();
+        reloadCustomers();
+    }
+    public void reloadCustomers() {
+    DefaultTableModel model = (DefaultTableModel) customerTable.getModel();
+    model.setRowCount(0);
+    customers.clear(); // Hapus isi list agar tidak dobel
+
+    int rowNum = 1;
+    List<entity.Customer> res = customerController.getAllCustomers();
+    for (entity.Customer c : res) {
+        model.addRow(new Object[]{rowNum++, c.getName(), c.getPhone(), c.getAddress()});
+        customers.add(c);
+    }
+
+    // Reset form dan toggle edit
+    btnEditCustomer.setSelected(false);
+    btnEditCustomer.setText("Edit");
+    customerName.setText("");
+    customerPhone.setText("");
+    customerAddress.setText("");
+    modifiedCustomerId = -1;
+    customerTable.clearSelection();
+}
+    private boolean validateFields() {
+         if (customerName.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    if (customerPhone.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Phone cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    if (!customerPhone.getText().trim().matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "Phone must contain only numbers", "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    if (customerAddress.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Address cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    return true;
     }
 
     /**
@@ -37,6 +91,8 @@ public class Customer extends javax.swing.JPanel {
         customerPhone = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         customerAddress = new javax.swing.JTextArea();
+        btnDeleteCustomer = new javax.swing.JButton();
+        btnEditCustomer = new javax.swing.JToggleButton();
 
         customerTitle.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         customerTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -55,6 +111,11 @@ public class Customer extends javax.swing.JPanel {
         labelAddress.setText("Address");
 
         btnAddCustomer.setText("Add");
+        btnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCustomerActionPerformed(evt);
+            }
+        });
 
         customerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,6 +156,20 @@ public class Customer extends javax.swing.JPanel {
         customerAddress.setRows(5);
         jScrollPane3.setViewportView(customerAddress);
 
+        btnDeleteCustomer.setText("Delete");
+        btnDeleteCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteCustomerActionPerformed(evt);
+            }
+        });
+
+        btnEditCustomer.setText("Edit");
+        btnEditCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditCustomerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,6 +182,7 @@ public class Customer extends javax.swing.JPanel {
                         .addComponent(customerTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(labelName)
@@ -115,14 +191,17 @@ public class Customer extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(customerPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(customerName, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(labelAddress)
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnEditCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDeleteCustomer))
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -133,17 +212,22 @@ public class Customer extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelName)
-                            .addComponent(customerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(labelName)
+                                .addComponent(customerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(labelAddress))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelPhone)
                             .addComponent(customerPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddCustomer, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDeleteCustomer)
+                    .addComponent(btnAddCustomer)
+                    .addComponent(btnEditCustomer))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -157,9 +241,96 @@ public class Customer extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_customerPhoneActionPerformed
 
+    private void btnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomerActionPerformed
+        if (!validateFields()) return;
+
+        String name = customerName.getText();
+        if (customers.stream().anyMatch(c -> c.getName().equalsIgnoreCase(name))) {
+            JOptionPane.showMessageDialog(this, "Customer with name '" + name + "' already exists");
+            return;
+        }
+
+        int rows = customerController.createCustomer(name, customerPhone.getText(), customerAddress.getText());
+        if (rows == 0) {
+            JOptionPane.showMessageDialog(this, "Ooops... Failed to add", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, "Successfully added customer");
+        reloadCustomers();
+    }//GEN-LAST:event_btnAddCustomerActionPerformed
+
+    private void btnDeleteCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCustomerActionPerformed
+        int row = customerTable.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "No row is selected!", "Select row", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this customer?", "Delete", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        String name = customerTable.getValueAt(row, 1).toString();
+        int id = customers.stream().filter(c -> c.getName().equals(name)).map(entity.Customer::getId).findFirst().orElse(-1);
+
+        int rows = customerController.deleteCustomer(id);
+        if (rows == 0) {
+            JOptionPane.showMessageDialog(this, "Delete failed", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, "Successfully deleted customer");
+        reloadCustomers();
+    }//GEN-LAST:event_btnDeleteCustomerActionPerformed
+
+    private void btnEditCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCustomerActionPerformed
+if (btnEditCustomer.isSelected()) {
+            int row = customerTable.getSelectedRow();
+
+            if (row < 0) {
+                JOptionPane.showMessageDialog(this, "No row is selected! Please select one row", "Select row",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String targetName = customerTable.getValueAt(row, 1).toString();
+            int id = customers.stream().filter(p -> targetName.equals(p.getName())).map(entity.Customer::getId).findFirst().orElse(-1);
+            modifiedCustomerId = id;
+            
+            entity.Customer c = customerController.getCustomerById(id);
+
+            customerName.setText(c.getName());
+            customerPhone.setText(c.getPhone());
+            customerAddress.setText(c.getAddress());
+            btnEditCustomer.setText("Update");
+            customerTable.clearSelection();
+        } else {
+            if (!validateFields()) return;
+            
+            String target = customerName.getText();
+            entity.Customer cu = customers.stream().filter(c -> c.getName().equalsIgnoreCase(target) && c.getId() != modifiedCustomerId).findFirst().orElse(null);
+            if (cu != null) {
+                JOptionPane.showMessageDialog(this, "Customer with name '" + target + "' already exist");
+                return;
+            }
+
+            int rowsAffected = customerController.updateCustomer(customerName.getText(), customerPhone.getText(), customerAddress.getText(), modifiedCustomerId);
+
+            if (rowsAffected == 0) {
+                JOptionPane.showMessageDialog(this, "Ooops... Failed", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            JOptionPane.showMessageDialog(this, "Successfully update customer");
+            reloadCustomers();
+        }
+    }//GEN-LAST:event_btnEditCustomerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCustomer;
+    private javax.swing.JButton btnDeleteCustomer;
+    private javax.swing.JToggleButton btnEditCustomer;
     private javax.swing.JTextArea customerAddress;
     private javax.swing.JTextField customerName;
     private javax.swing.JTextField customerPhone;
