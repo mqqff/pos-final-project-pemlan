@@ -100,7 +100,6 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                     case "Transaction" -> {
                         transactionPanel.load();
-                        transactionPanel.reload();
                         transactionPanel.loadCustomer();
                         transactionPanel.initCashier();
                         transactionPanel.focusOnProductCodeInput();

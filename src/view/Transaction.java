@@ -36,8 +36,8 @@ public class Transaction extends javax.swing.JPanel {
         paymentDialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         
         initInvoice();
-        load();
         model = (DefaultTableModel) cartTable.getModel();
+        load();
     }
 
     /**
@@ -817,9 +817,6 @@ public class Transaction extends javax.swing.JPanel {
             
             load();
             initInvoice();
-            loadCustomer();
-            cart.clear();
-            labelTotal.setText("0");
             
             model.setRowCount(0);
             paymentDialog.setVisible(false);
@@ -874,8 +871,12 @@ public class Transaction extends javax.swing.JPanel {
         String formattedDate = today.format(formatter);
 
         transactionDate.setText(formattedDate);
+        cart.clear();
+        model.setRowCount(0);
         
         loadCustomer();
+        cart.clear();
+        labelTotal.setText("0");
         reload();
         
         productCode.grabFocus();
