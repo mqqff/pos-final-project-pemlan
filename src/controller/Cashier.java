@@ -12,17 +12,17 @@ import pkg.Session;
  * @author atha3
  */
 public class Cashier {
-    private final repository.Cashier cashierRepo = new repository.Cashier();
-    private final repository.Auth authRepo = new repository.Auth();
+    private final dao.Cashier cashierDao = new dao.Cashier();
+    private final dao.Auth authDao = new dao.Auth();
     
     public int updateCashier(String name, String username, String phone) {
         entity.Cashier c = new entity.Cashier(name, phone, username);
         c.setId(Session.getCashier().getId());
         
-        entity.Cashier cDB = cashierRepo.getCashierByUsername(c);
+        entity.Cashier cDB = cashierDao.getCashierByUsername(c);
         if (cDB != null && cDB.getId() != Session.getCashier().getId()) return -1;
         
-        int rowsAffected = cashierRepo.updateCashier(c);
+        int rowsAffected = cashierDao.updateCashier(c);
         if (rowsAffected < 1) return 0;
         
         Session.setCashier(c);
@@ -31,9 +31,9 @@ public class Cashier {
     }
     
     public int updatePassword(String oldPassword, String newPassword) {
-        entity.Cashier c = authRepo.authenticate(Session.getCashier().getUsername(), oldPassword);
+        entity.Cashier c = authDao.authenticate(Session.getCashier().getUsername(), oldPassword);
         if (c == null) return -1;
         
-        return cashierRepo.updatePassword(c, HashUtil.hashPassword(newPassword));
+        return cashierDao.updatePassword(c, HashUtil.hashPassword(newPassword));
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * @author atha3
  */
 public class Product {
-  private repository.Product productRepo = new repository.Product();
+  private final dao.Product productDao = new dao.Product();
 
   public int createProduct(String name, String code, String categoryName, int stock, long price) {
     entity.Product p = new entity.Product();
@@ -23,7 +23,7 @@ public class Product {
     p.setCategory(c);
     p.setStock(stock);
     p.setPrice(price);
-    return productRepo.createProduct(p);
+    return productDao.createProduct(p);
   }
 
   public int updateProduct(String name, String code, String categoryName, int stock, long price, int id) {
@@ -37,32 +37,32 @@ public class Product {
     p.setCategory(c);
     p.setStock(stock);
     p.setPrice(price);
-    return productRepo.updateProduct(p);
+    return productDao.updateProduct(p);
   }
 
   public entity.Product getProductById(int id) {
     entity.Product p = new entity.Product();
     p.setId(id);
-    return productRepo.getProductById(p);
+    return productDao.getProductById(p);
   }
   
   public entity.Product getProductByCode(String code) {
     entity.Product p = new entity.Product();
     p.setCode(code);
-    return productRepo.getProductByCode(p);
+    return productDao.getProductByCode(p);
   }
 
   public int deleteProduct(int id) {
     entity.Product p = new entity.Product();
     p.setId(id);
-    return productRepo.deleteProduct(p);
+    return productDao.deleteProduct(p);
   }
 
   public List<entity.Product> getAllProducts() {
-    return productRepo.getAllProducts();
+    return productDao.getAllProducts();
   }
   
   public long countProducts() {
-      return productRepo.countProducts();
+      return productDao.countProducts();
   }
 }

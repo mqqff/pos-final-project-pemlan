@@ -11,13 +11,13 @@ import java.util.List;
  * @author atha3
  */
 public class Category {
-    private repository.Category categoryRepo = new repository.Category();
+    private final dao.Category categoryDao = new dao.Category();
 
     public int createCategory(String name, String description) {
         entity.Category c = new entity.Category();
         c.setName(name);
         c.setDescription(description);
-        return categoryRepo.createCategory(c);
+        return categoryDao.createCategory(c);
     }
     
     public int updateCategory(String name, String description, int id) {
@@ -25,22 +25,22 @@ public class Category {
         c.setId(id);
         c.setName(name);
         c.setDescription(description);
-        return categoryRepo.updateCategory(c);
+        return categoryDao.updateCategory(c);
     }
     
     public entity.Category getCategoryById(int id) {
         entity.Category c = new entity.Category();
         c.setId(id);
-        return categoryRepo.getCategoryById(c);
+        return categoryDao.getCategoryById(c);
     }
     
     public int deleteCategory(int id) {
         entity.Category c = new entity.Category();
         c.setId(id);
-        return categoryRepo.deleteCategory(c);
+        return categoryDao.deleteCategory(c);
     }
 
     public List<entity.Category> getAllCategories() {
-        return categoryRepo.getAllCategories();
+        return categoryDao.getAllCategories();
     }
 }
