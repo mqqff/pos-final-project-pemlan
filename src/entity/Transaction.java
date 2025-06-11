@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 /**
@@ -18,7 +17,7 @@ public class Transaction {
     private long total;
     private entity.Payment payment;
     private Date date;
-    List<entity.TransactionDetail> transactionDetails = new ArrayList<>();
+    private List<entity.TransactionDetail> transactionDetails;
     
    public Transaction (Cashier cashier, Customer customer, String invoiceNo, long total, entity.Payment payment, String note, List<entity.TransactionDetail> transactionDetails) {
         this.customer = customer;

@@ -26,6 +26,14 @@ public class CashPayment implements contracts.PaymentContract {
     public void setAmountPaid(long amountPaid) {
         this.amountPaid = amountPaid;
     }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
     
     public long getChange() {
         return amountPaid - total;
