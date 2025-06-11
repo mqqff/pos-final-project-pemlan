@@ -15,7 +15,7 @@ import pkg.DBConnection;
  *
  * @author atha3
  */
-public class PaymentMethod {
+public class PaymentMethodDao {
     private final DBConnection conn = new DBConnection();
     
     public List<entity.PaymentMethod> getAllPaymentMethods() {
@@ -29,7 +29,7 @@ public class PaymentMethod {
                 list.add(new entity.PaymentMethod(name));   
             }
         } catch (SQLException e) {
-            Logger.getLogger(PaymentMethod.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(PaymentMethodDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return list;
@@ -46,7 +46,7 @@ public class PaymentMethod {
             Map<String, Object> row = rows.getFirst();
             paymentMethod.setName(row.get("name").toString());
         } catch (SQLException e) {
-            Logger.getLogger(PaymentMethod.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(PaymentMethodDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return paymentMethod;

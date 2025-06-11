@@ -13,7 +13,7 @@ import pkg.DBConnection;
  *
  * @author atha3
  */
-public class Product {
+public class ProductDao {
   private final DBConnection conn = new DBConnection();
 
   public List<entity.Product> getAllProducts() {
@@ -44,7 +44,7 @@ public class Product {
           products.add(new entity.Product(id, name, code, category, stock, price));
         }
     } catch (SQLException e) {
-        Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
     }
 
     return products;
@@ -83,7 +83,7 @@ public class Product {
         p.setStock(stock);
         p.setCategory(category);
     } catch (SQLException e) {
-        Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
     }
 
     return p;
@@ -122,7 +122,7 @@ public class Product {
         p.setStock(stock);
         p.setCategory(category);
     } catch (SQLException e) {
-        Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
     }
 
     return p;
@@ -146,7 +146,7 @@ public class Product {
         if (queryResult > 0)
           return 1;
     } catch (SQLException e) {
-        Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
     }
 
     return 0;
@@ -169,7 +169,7 @@ public class Product {
         if (rowsAffected > 0)
           return 1;
     } catch (SQLException e) {
-        Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
     }
 
     return 0;
@@ -182,7 +182,7 @@ public class Product {
         if (rowsAffected > 0)
           return 1;
     } catch (SQLException e) {
-        Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
     }
 
     return 0;
@@ -195,7 +195,7 @@ public class Product {
 
         return Long.parseLong(row.get("total_products").toString());
     } catch (SQLException e) {
-        Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
     }
 
     return 0;

@@ -10,8 +10,8 @@ import java.util.List;
  *
  * @author atha3
  */
-public class Product {
-  private final dao.Product productDao = new dao.Product();
+public class ProductController {
+  private final dao.ProductDao productDao = new dao.ProductDao();
 
   public int createProduct(String name, String code, String categoryName, int stock, long price) {
     entity.Product p = new entity.Product();

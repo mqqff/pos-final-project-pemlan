@@ -4,9 +4,9 @@ import entity.TransactionDetail;
 import java.security.SecureRandom;
 import java.util.List;
 import pkg.Helper;
-import contracts.Payment;
 import entity.Customer;
 import pkg.Session;
+import contracts.PaymentContract;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -17,11 +17,11 @@ import pkg.Session;
  *
  * @author nara
  */
-public class Transaction {
-    private final dao.Payment paymentDao = new dao.Payment();
-    private final dao.Transaction transactionDao = new dao.Transaction();
-    private final dao.TransactionDetail transactionDetailDao = new dao.TransactionDetail();
-    private final dao.Product productDao = new dao.Product();
+public class TransactionController {
+    private final dao.PaymentDao paymentDao = new dao.PaymentDao();
+    private final dao.TransactionDao transactionDao = new dao.TransactionDao();
+    private final dao.TransactionDetailDao transactionDetailDao = new dao.TransactionDetailDao();
+    private final dao.ProductDao productDao = new dao.ProductDao();
     
     public String generateInvoice() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -39,7 +39,7 @@ public class Transaction {
     }
     
     public int createTransaction(List<TransactionDetail> items, String cust, String invoiceNo, long total, String paymentMethod, long amount, String cardNumber) {
-        Payment p = Helper.paymentFactory(paymentMethod, total, amount, cardNumber);
+        PaymentContract p = Helper.paymentFactory(paymentMethod, total, amount, cardNumber);
         int paymentId = paymentDao.createPayment(p);
         if (paymentId < 0) return 0;
         

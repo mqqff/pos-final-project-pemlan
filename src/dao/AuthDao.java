@@ -15,7 +15,7 @@ import pkg.HashUtil;
  *
  * @author atha3
  */
-public class Auth {    
+public class AuthDao {    
     private final pkg.DBConnection conn = new DBConnection();
     
     public Cashier authenticate(String username, String password) {
@@ -37,7 +37,7 @@ public class Auth {
             user.setName(userDB.get("name").toString());
             user.setPhone(userDB.get("phone").toString());
         } catch (Exception e) {
-            Logger.getLogger(Auth.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(AuthDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return user;

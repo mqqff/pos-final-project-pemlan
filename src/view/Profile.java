@@ -15,7 +15,7 @@ import pkg.Session;
  * @author atha3
  */
 public class Profile extends javax.swing.JPanel {
-    private final controller.Cashier cashierController = new controller.Cashier();
+    private final controller.CashierController cashierController = new controller.CashierController();
 
     /**
      * Creates new form Profile

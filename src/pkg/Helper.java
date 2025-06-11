@@ -4,7 +4,6 @@
  */
 package pkg;
 
-import contracts.Payment;
 import entity.payment.CardPayment;
 import entity.payment.CashPayment;
 import entity.payment.QRISPayment;
@@ -12,13 +11,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.table.DefaultTableModel;
+import contracts.PaymentContract;
 
 /**
  *
  * @author atha3
  */
 public class Helper {
-    public static Payment paymentFactory(String type, long total, long amount, String cardNumber) {
+    public static PaymentContract paymentFactory(String type, long total, long amount, String cardNumber) {
         return switch (type.toLowerCase()) {
             case "cash" -> new CashPayment(total, amount);
             case "card" -> new CardPayment(amount, cardNumber);

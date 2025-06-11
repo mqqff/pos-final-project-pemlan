@@ -8,7 +8,7 @@ package contracts;
  *
  * @author atha3
  */
-public interface Payment {
+public interface PaymentContract {
     String getType();
     String getInsertSQL();
 }

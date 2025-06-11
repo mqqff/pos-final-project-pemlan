@@ -13,14 +13,14 @@ import pkg.DBConnection;
  *
  * @author atha3
  */
-public class Payment {
+public class PaymentDao {
     private final DBConnection conn = new DBConnection();
     
     /**
      * @param p
      * @return id
      */
-    public int createPayment(contracts.Payment p) {
+    public int createPayment(contracts.PaymentContract p) {
         BigDecimal id = new BigDecimal(-1);
         try {
             int query = conn.executeUpdate(p.getInsertSQL());
@@ -28,7 +28,7 @@ public class Payment {
             
             id = (BigDecimal) conn.executeQuery("SELECT @@IDENTITY AS id").getFirst().get("id");
         } catch (SQLException e) {
-            Logger.getLogger(Payment.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(PaymentDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return id.intValue();

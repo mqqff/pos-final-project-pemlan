@@ -14,12 +14,12 @@ import javax.swing.table.DefaultTableModel;
  * @author atha3
  */
 public class Category extends javax.swing.JPanel {
-    private final controller.Category categoryController = new controller.Category();
+    private final controller.CategoryController categoryController = new controller.CategoryController();
     private final List<entity.Category> categories = new ArrayList<>();
     private int modifiedCategoryId;
 
     /**
-     * Creates new form Category
+     * Creates new form CategoryController
      */
     public Category() {
         initComponents();

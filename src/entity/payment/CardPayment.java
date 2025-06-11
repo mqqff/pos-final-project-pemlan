@@ -8,7 +8,7 @@ package entity.payment;
  *
  * @author atha3
  */
-public class CardPayment implements contracts.Payment {
+public class CardPayment implements contracts.PaymentContract {
     private String cardNumber;
     private long amountPaid;
 

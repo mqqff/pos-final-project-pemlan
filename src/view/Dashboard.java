@@ -9,9 +9,9 @@ package view;
  * @author atha3
  */
 public class Dashboard extends javax.swing.JPanel {
-    private final controller.Transaction transCtr = new controller.Transaction();
-    private final controller.Product prodCtr = new controller.Product();
-    private final controller.Customer custCtr = new controller.Customer();
+    private final controller.TransactionController transCtr = new controller.TransactionController();
+    private final controller.ProductController prodCtr = new controller.ProductController();
+    private final controller.CustomerController custCtr = new controller.CustomerController();
 
     /**
      * Creates new form Dashboard

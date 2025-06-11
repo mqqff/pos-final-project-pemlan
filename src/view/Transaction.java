@@ -21,15 +21,15 @@ import pkg.Session;
  * @author atha3
  */
 public class Transaction extends javax.swing.JPanel {
-        private final controller.Product productController = new controller.Product();
-        private final controller.Transaction transactionController = new controller.Transaction();
-        private final controller.Customer customerController = new controller.Customer();
+        private final controller.ProductController productController = new controller.ProductController();
+        private final controller.TransactionController transactionController = new controller.TransactionController();
+        private final controller.CustomerController customerController = new controller.CustomerController();
         private final List<entity.TransactionDetail> cart = new ArrayList<>();
         private final List<entity.Customer> customers = new ArrayList<>();
         private final DefaultTableModel model;
 
     /**
-     * Creates new form Transaction
+     * Creates new form TransactionController
      */
     public Transaction() {
         initComponents();

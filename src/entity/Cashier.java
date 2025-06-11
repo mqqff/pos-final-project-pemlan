@@ -8,7 +8,7 @@ package entity;
  *
  * @author atha3
  */
-public class Cashier extends contracts.Person {
+public class Cashier extends contracts.PersonContract {
     private String username;
     
     public Cashier(String name, String phone, String username) {

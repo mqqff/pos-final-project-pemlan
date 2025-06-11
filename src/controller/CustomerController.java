@@ -6,8 +6,8 @@ package controller;
 
 import java.util.List;
 
-public class Customer {
-    private final dao.Customer customerDao = new dao.Customer();
+public class CustomerController {
+    private final dao.CustomerDao customerDao = new dao.CustomerDao();
 
     public int createCustomer(String name, String phone, String address) {
         entity.Customer c = new entity.Customer();
