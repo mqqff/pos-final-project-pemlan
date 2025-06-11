@@ -28,4 +28,6 @@ Simple Point of Sale (POS) application with category, product, customer, transac
   - JDK 8+ (check with `javac -version`)
   - JDBC SQL Server [Download here](https://go.microsoft.com/fwlink/?linkid=2310306)
 
-Note: Don't forget to load the jdbc to libraries on netbeans
+Note: 
+  - Don't forget to load the jdbc to libraries on netbeans
+  - No need to setup database (database already running on the server)
