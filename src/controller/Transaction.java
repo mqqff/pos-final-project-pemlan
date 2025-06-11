@@ -18,10 +18,10 @@ import pkg.Session;
  * @author nara
  */
 public class Transaction {
-    private final repository.Payment paymentRepo = new repository.Payment();
-    private final repository.Transaction transactionRepo = new repository.Transaction();
-    private final repository.TransactionDetail transactionDetailRepo = new repository.TransactionDetail();
-    private final repository.Product productRepo = new repository.Product();
+    private final dao.Payment paymentDao = new dao.Payment();
+    private final dao.Transaction transactionDao = new dao.Transaction();
+    private final dao.TransactionDetail transactionDetailDao = new dao.TransactionDetail();
+    private final dao.Product productDao = new dao.Product();
     
     public String generateInvoice() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -40,7 +40,7 @@ public class Transaction {
     
     public int createTransaction(List<TransactionDetail> items, String cust, String invoiceNo, long total, String paymentMethod, long amount, String cardNumber) {
         Payment p = Helper.paymentFactory(paymentMethod, total, amount, cardNumber);
-        int paymentId = paymentRepo.createPayment(p);
+        int paymentId = paymentDao.createPayment(p);
         if (paymentId < 0) return 0;
         
         entity.Payment pa = new entity.Payment();
@@ -58,17 +58,17 @@ public class Transaction {
             t.setCustomer(c);
         }
         
-        int transactionId = transactionRepo.createTransaction(t);
+        int transactionId = transactionDao.createTransaction(t);
         if (transactionId < 0) return 0;
         
         for (TransactionDetail item : items) {
             entity.Product pr = item.getProduct();
             pr.setStock(pr.getStock() - item.getQty());
-            int rowsAffected = productRepo.updateProduct(pr);
+            int rowsAffected = productDao.updateProduct(pr);
             if (rowsAffected < 1) return 0;
             
             item.setTransactionId(transactionId);
-            rowsAffected = transactionDetailRepo.createTransactionDetail(item);
+            rowsAffected = transactionDetailDao.createTransactionDetail(item);
             if (rowsAffected < 1) return 0;
         }
         
@@ -76,14 +76,14 @@ public class Transaction {
     }
     
     public List<entity.Transaction> getAllTransactions() {
-        return transactionRepo.getAllTransactions();
+        return transactionDao.getAllTransactions();
     }
     
     public long countTransactions() {
-        return transactionRepo.countTransactions();
+        return transactionDao.countTransactions();
     }
     
     public long countIncome() {
-        return transactionRepo.countIncome();
+        return transactionDao.countIncome();
     }
 }
