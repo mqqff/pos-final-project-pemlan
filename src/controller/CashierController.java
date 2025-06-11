@@ -11,9 +11,9 @@ import pkg.Session;
  *
  * @author atha3
  */
-public class Cashier {
-    private final dao.Cashier cashierDao = new dao.Cashier();
-    private final dao.Auth authDao = new dao.Auth();
+public class CashierController {
+    private final dao.CashierDao cashierDao = new dao.CashierDao();
+    private final dao.AuthDao authDao = new dao.AuthDao();
     
     public int updateCashier(String name, String username, String phone) {
         entity.Cashier c = new entity.Cashier(name, phone, username);

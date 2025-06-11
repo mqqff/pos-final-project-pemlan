@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.*;
 import pkg.DBConnection;
 
-public class Customer {
+public class CustomerDao {
     private final pkg.DBConnection conn = new DBConnection();
 
     public entity.Customer getCustomerById(entity.Customer c) {
@@ -24,7 +24,7 @@ public class Customer {
             c.setPhone(customer.get("phone").toString());
             c.setAddress(customer.get("address").toString());
         } catch (SQLException e) {
-            Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CustomerDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return c;
@@ -42,7 +42,7 @@ public class Customer {
                 list.add(new entity.Customer(id, name, phone, address));
             }
         } catch (SQLException e) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, e);
         }
         return list;
     }
@@ -53,7 +53,7 @@ public class Customer {
                 c.getName(), c.getPhone(), c.getAddress());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, e);
         }
         return 0;
     }
@@ -64,7 +64,7 @@ public class Customer {
                 c.getName(), c.getPhone(), c.getAddress(), c.getId());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, e);
         }
         return 0;
     }
@@ -74,7 +74,7 @@ public class Customer {
             int query = conn.executeUpdate("DELETE FROM customers WHERE id = ?", c.getId());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(CustomerDao.class.getName()).log(Level.SEVERE, null, e);
         }
         return 0;
     }
@@ -86,7 +86,7 @@ public class Customer {
 
         return Long.parseLong(row.get("total_customers").toString());
     } catch (SQLException e) {
-        Logger.getLogger(Customer.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        Logger.getLogger(CustomerDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
     }
 
     return 0;

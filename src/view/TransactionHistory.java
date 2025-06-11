@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
  * @author atha3
  */
 public class TransactionHistory extends javax.swing.JPanel {
-    private final controller.Transaction trCtr = new controller.Transaction();
-    private final controller.TransactionDetail tdCtr = new controller.TransactionDetail();
+    private final controller.TransactionController trCtr = new controller.TransactionController();
+    private final controller.TransactionDetailController tdCtr = new controller.TransactionDetailController();
     private final List<entity.Transaction> transactions = new ArrayList<>();
             
     /**

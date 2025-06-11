@@ -10,8 +10,8 @@ import java.util.List;
  *
  * @author atha3
  */
-public class Category {
-    private final dao.Category categoryDao = new dao.Category();
+public class CategoryController {
+    private final dao.CategoryDao categoryDao = new dao.CategoryDao();
 
     public int createCategory(String name, String description) {
         entity.Category c = new entity.Category();

@@ -15,7 +15,7 @@ import pkg.DBConnection;
  *
  * @author nara
  */
-public class TransactionDetail {
+public class TransactionDetailDao {
     private final pkg.DBConnection conn = new DBConnection();
     
     public List<entity.TransactionDetail> getTransactionDetailsByTransactionId(int transactionId) {
@@ -40,7 +40,7 @@ public class TransactionDetail {
                 list.add(td);
             }
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return list;
@@ -51,7 +51,7 @@ public class TransactionDetail {
             int query = conn.executeUpdate("INSERT INTO transaction_details (transaction_id, product_id, qty) VALUES (?, ?, ?)", td.getTransactionId(), td.getProduct().getId(), td.getQty());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return 0;

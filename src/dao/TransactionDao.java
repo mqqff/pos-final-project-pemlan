@@ -18,7 +18,7 @@ import pkg.Helper;
  *
  * @author nara
  */
-public class Transaction {
+public class TransactionDao {
      private final pkg.DBConnection conn = new DBConnection();
      
      public List<entity.Transaction> getAllTransactions() {
@@ -67,7 +67,7 @@ public class Transaction {
                 entity.Cashier ca = new entity.Cashier();
                 ca.setName(cashierName);
 
-                contracts.Payment p = Helper.paymentFactory(paymentMethod, total, amount, null);
+                contracts.PaymentContract p = Helper.paymentFactory(paymentMethod, total, amount, null);
 
                 entity.Payment pa = new entity.Payment();
                 pa.setType(p.getType());
@@ -97,7 +97,7 @@ public class Transaction {
                 transactions.add(t);
             }
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return transactions;
@@ -146,7 +146,7 @@ public class Transaction {
             
             id = (BigDecimal) conn.executeQuery("SELECT @@IDENTITY AS id").getFirst().get("id");
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return id.intValue();
@@ -159,7 +159,7 @@ public class Transaction {
 
             return Long.parseLong(row.get("total_transactions").toString());
         } catch (SQLException e) {
-            Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
 
         return 0;
@@ -172,7 +172,7 @@ public class Transaction {
 
             return (long) row.get("income");
         } catch (SQLException e) {
-            Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(ProductDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
 
         return 0;

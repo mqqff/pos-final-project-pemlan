@@ -14,13 +14,13 @@ import javax.swing.table.DefaultTableModel;
  * @author atha3
  */
 public class Customer extends javax.swing.JPanel {
-    private final controller.Customer customerController = new controller.Customer();
+    private final controller.CustomerController customerController = new controller.CustomerController();
     private final List<entity.Customer> customers = new ArrayList<>();
     private int modifiedCustomerId;
     
 
     /**
-     * Creates new form Customer
+     * Creates new form CustomerController
      */
     public Customer() {
         initComponents();

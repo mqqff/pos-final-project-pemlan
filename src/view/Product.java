@@ -14,13 +14,13 @@ import javax.swing.table.DefaultTableModel;
  * @author atha3
  */
 public class Product extends javax.swing.JPanel {
-    private final controller.Product productController = new controller.Product();
-    private final controller.Category categoryController = new controller.Category();
+    private final controller.ProductController productController = new controller.ProductController();
+    private final controller.CategoryController categoryController = new controller.CategoryController();
     private final List<entity.Product> products = new ArrayList<>();
     private int modifiedProductId;
 
     /**
-     * Creates new form Product
+     * Creates new form ProductController
      */
     public Product() {
         initComponents();

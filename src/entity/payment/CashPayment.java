@@ -8,7 +8,7 @@ package entity.payment;
  *
  * @author atha3
  */
-public class CashPayment implements contracts.Payment {
+public class CashPayment implements contracts.PaymentContract {
     private long total;
     private long amountPaid;
     

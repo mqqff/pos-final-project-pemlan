@@ -14,7 +14,7 @@ import pkg.DBConnection;
  *
  * @author atha3
  */
-public class Cashier {
+public class CashierDao {
     private final DBConnection conn = new DBConnection();
     
     public entity.Cashier getCashierByUsername(entity.Cashier c) {
@@ -26,7 +26,7 @@ public class Cashier {
             Map<String, Object> row = rows.getFirst();
             cashier.setId((int) row.get("id"));
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return cashier;
@@ -37,7 +37,7 @@ public class Cashier {
             int query = conn.executeUpdate("UPDATE cashiers SET name = ?, username = ?, phone = ? WHERE id = ?", c.getName(), c.getUsername(), c.getPhone(), c.getId());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return 0;
@@ -48,7 +48,7 @@ public class Cashier {
             int query = conn.executeUpdate("UPDATE cashiers SET password = ? WHERE id = ?", password, c.getId());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return 0;

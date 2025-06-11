@@ -8,7 +8,7 @@ package entity.payment;
  *
  * @author atha3
  */
-public class QRISPayment implements contracts.Payment {
+public class QRISPayment implements contracts.PaymentContract {
     private long amountPaid;
     
     public QRISPayment(long amountPaid) {

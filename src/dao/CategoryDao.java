@@ -13,7 +13,7 @@ import pkg.DBConnection;
  *
  * @author atha3
  */
-public class Category {
+public class CategoryDao {
     private final pkg.DBConnection conn = new DBConnection();
     
     public entity.Category getCategoryById(entity.Category c) {
@@ -27,7 +27,7 @@ public class Category {
             c.setName(category.get("name").toString());
             c.setDescription(category.get("description").toString());
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return c;
@@ -47,7 +47,7 @@ public class Category {
                 list.add(new entity.Category(id, name, description));   
             }
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return list;
@@ -58,7 +58,7 @@ public class Category {
             int query = conn.executeUpdate("INSERT INTO categories (name, description) VALUES (?, ?)", c.getName(), c.getDescription());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return 0;
@@ -69,7 +69,7 @@ public class Category {
             int query = conn.executeUpdate("UPDATE categories SET name = ?, description = ? WHERE id = ?", c.getName(), c.getDescription(), c.getId());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return 0;
@@ -80,7 +80,7 @@ public class Category {
             int query = conn.executeUpdate("DELETE FROM categories WHERE id = ?", c.getId());
             if (query > 0) return 1;
         } catch (SQLException e) {
-            Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            Logger.getLogger(CategoryDao.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
         
         return 0;
